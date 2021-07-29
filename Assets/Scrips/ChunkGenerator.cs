@@ -6,39 +6,64 @@ using UnityEngine.Rendering;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(MeshFilter))]
-public class ChunkGenerator : MonoBehaviour
+public class ChunkGenerator
 {
-  public MeshRenderer meshRenderer;
-	public MeshFilter meshFilter;
+	public ChunkCords cords;
+	
+	GameObject chunkObjekt;
+	MeshRenderer meshRenderer;
+	MeshFilter meshFilter;
 
 	int vertexIndex = 0;
 	List<Vector3> vertices = new List<Vector3> ();
 	List<int> triangles = new List<int> ();
 	List<Vector2> uvs = new List<Vector2> ();
 
-	bool[,,] voxelMap = new bool[VertexTable.ChunkWidth, VertexTable.ChunkHeight, VertexTable.ChunkWidth];
+	byte[,,] voxelMap = new byte[VertexTable.ChunkWidth, VertexTable.ChunkHeight, VertexTable.ChunkWidth];
+	private World world;
 
-	[SerializeField] private float ampletude;
-	[SerializeField] private float frequency;
-	[SerializeField] private float minValley;
+	public ChunkGenerator(ChunkCords _cords, World _world)
+	{
+		world = _world;
+		cords = _cords;
+		chunkObjekt = new GameObject();
+		meshFilter = chunkObjekt.AddComponent<MeshFilter>();
+		meshRenderer = chunkObjekt.AddComponent<MeshRenderer>();
 
-	void Start () {
-
-		Debug.Log(-8 % 16);
+		meshRenderer.material = world.material;
+		chunkObjekt.transform.SetParent(world.transform);
+		chunkObjekt.transform.position =
+			new Vector3(cords.x * VertexTable.ChunkWidth, 0f, cords.z * VertexTable.ChunkWidth);
+		chunkObjekt.name = "chunk: " + cords.x + " , " + cords.z;
+		
 		PopulateVoxelMap ();
 		CreateMeshData ();
 		CreateMesh ();
-
 	}
 
 	void PopulateVoxelMap () {
-		
+
 		for (int y = 0; y < VertexTable.ChunkHeight; y++) {
 			for (int x = 0; x < VertexTable.ChunkWidth; x++) {
 				for (int z = 0; z < VertexTable.ChunkWidth; z++)
 				{
 
-					voxelMap[x, y, z] = (minValley + Mathf.PerlinNoise(x * frequency, z * frequency) * ampletude) > y;
+					//voxelMap[x, y, z] = minValley + Mathf.PerlinNoise((x + coordinaten.x * VertexTable.ChunkWidth) * persistance , (z + coordinaten.y * VertexTable.ChunkWidth) * persistance) * ampletude > y;
+					/*
+					if(y == Mathf.Floor(minValley + noiseMap[x, z] * ampletude))
+						voxelMap[x, y, z] = 1;
+					
+					if (y < Mathf.Floor(minValley + noiseMap[x, z] * ampletude))
+						voxelMap[x, y, z] = 2;
+					
+					if (y < Mathf.Floor(minValley + noiseMap[x, z] * ampletude - 2))
+						voxelMap[x, y, z] = 3;
+					
+					if(y == 0)
+						voxelMap[x, y, z] = 4;
+					*/
+
+					voxelMap[x, y, z] = world.GetVoxel(new Vector3(x, y, z) + position);
 
 				}
 			}
@@ -58,16 +83,36 @@ public class ChunkGenerator : MonoBehaviour
 		}
 	}
 
+	public bool isActive
+	{
+		get { return chunkObjekt.activeSelf; }
+		set{chunkObjekt.SetActive(value);}
+	}
+
+	public Vector3 position
+	{
+		get { return chunkObjekt.transform.position; }
+	}
+	
+	bool isVoxelInChunk(int x, int y, int z)
+	{
+		if (x < 0 || x > VertexTable.ChunkWidth - 1 || y < 0 || y > VertexTable.ChunkHeight - 1 || z < 0 ||
+		    z > VertexTable.ChunkWidth - 1)
+			return false;
+		else
+			return true;
+	}
+	
 	bool CheckVoxel (Vector3 pos) {
 
 		int x = Mathf.FloorToInt (pos.x);
 		int y = Mathf.FloorToInt (pos.y);
 		int z = Mathf.FloorToInt (pos.z);
 
-		if (x < 0 || x > VertexTable.ChunkWidth - 1 || y < 0 || y > VertexTable.ChunkHeight - 1 || z < 0 || z > VertexTable.ChunkWidth - 1)
-			return false;
+		if (!isVoxelInChunk(x, y, z))
+			return world.blocktypes[world.GetVoxel(pos + position)].isSolid;
 
-		return voxelMap [x, y, z];
+		return world.blocktypes[voxelMap[x, y, z]].isSolid;
 
 	}
 
@@ -77,20 +122,17 @@ public class ChunkGenerator : MonoBehaviour
 	if(!CheckVoxel(pos)) return;
 		for (int p = 0; p < 6; p++) { 
 
-			if (!CheckVoxel(pos + VertexTable.faceChecks[p])) {
+			if (!CheckVoxel(pos + VertexTable.faceChecks[p]))
+			{
+
+				byte blockID = voxelMap[(int) pos.x, (int) pos.y, (int) pos.z];
 				
 				vertices.Add (pos + VertexTable.voxelVerts [VertexTable.voxelTris [p, 0]]);
 				vertices.Add (pos + VertexTable.voxelVerts [VertexTable.voxelTris [p, 1]]);
 				vertices.Add (pos + VertexTable.voxelVerts [VertexTable.voxelTris [p, 2]]);
 				vertices.Add (pos + VertexTable.voxelVerts [VertexTable.voxelTris [p, 3]]);
 				
-				
-				Vector2 UVCords = TextureMapping.GetUVPos(240);
-				uvs.Add (UVCords + TextureMapping.VoxelTextureUV[0]);
-				uvs.Add (UVCords + TextureMapping.VoxelTextureUV[1]);
-				uvs.Add (UVCords + TextureMapping.VoxelTextureUV[2]);
-				uvs.Add (UVCords + TextureMapping.VoxelTextureUV[3]);
-				
+				AddTextures(world.blocktypes[blockID].GetTexturID(p));
 				
 				triangles.Add (vertexIndex);
 				triangles.Add (vertexIndex + 1);
@@ -102,6 +144,15 @@ public class ChunkGenerator : MonoBehaviour
 
 			}
 		}
+	}
+
+	void AddTextures(int textureID)
+	{
+		Vector2 UVCords = TextureMapping.GetUVPos(textureID);
+		uvs.Add (UVCords + TextureMapping.VoxelTextureUV[0]);
+		uvs.Add (UVCords + TextureMapping.VoxelTextureUV[1]);
+		uvs.Add (UVCords + TextureMapping.VoxelTextureUV[2]);
+		uvs.Add (UVCords + TextureMapping.VoxelTextureUV[3]);
 	}
 
 	void CreateMesh()
@@ -118,4 +169,16 @@ public class ChunkGenerator : MonoBehaviour
 		meshFilter.mesh = mesh;
 	}
 	
+}
+
+public class ChunkCords
+{
+	public int x;
+	public int z;
+
+	public ChunkCords(int _x, int _z)
+	{
+		x = _x;
+		z = _z;
+	}
 }

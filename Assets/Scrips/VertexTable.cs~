@@ -14,7 +14,7 @@ public static class VertexTable
 
   }
 
-  public static readonly int VewdistanceInChunks = 12;
+  public static readonly int VewdistanceInChunks = 5;
 
   public static readonly int TextureAtlasSizeInBlocks = 4;
   public static float NormalizedBlockTextureSize {
