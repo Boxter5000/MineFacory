@@ -8,27 +8,30 @@ using Random = UnityEngine.Random;
 [RequireComponent(typeof(MeshFilter))]
 public class ChunkGenerator
 {
-	public ChunkCords cords;
+	public ChunkCoord cords;
 	
 	GameObject chunkObjekt;
 	MeshRenderer meshRenderer;
 	MeshFilter meshFilter;
+	private MeshCollider _meshCollider;
 
 	int vertexIndex = 0;
 	List<Vector3> vertices = new List<Vector3> ();
 	List<int> triangles = new List<int> ();
 	List<Vector2> uvs = new List<Vector2> ();
 
-	byte[,,] voxelMap = new byte[VertexTable.ChunkWidth, VertexTable.ChunkHeight, VertexTable.ChunkWidth];
+	public byte[,,] voxelMap = new byte[VertexTable.ChunkWidth, VertexTable.ChunkHeight, VertexTable.ChunkWidth];
 	private World world;
 
-	public ChunkGenerator(ChunkCords _cords, World _world)
+	
+	public ChunkGenerator(ChunkCoord _cords, World _world)
 	{
 		world = _world;
 		cords = _cords;
 		chunkObjekt = new GameObject();
 		meshFilter = chunkObjekt.AddComponent<MeshFilter>();
 		meshRenderer = chunkObjekt.AddComponent<MeshRenderer>();
+		_meshCollider = chunkObjekt.AddComponent<MeshCollider>();
 
 		meshRenderer.material = world.material;
 		chunkObjekt.transform.SetParent(world.transform);
@@ -47,22 +50,6 @@ public class ChunkGenerator
 			for (int x = 0; x < VertexTable.ChunkWidth; x++) {
 				for (int z = 0; z < VertexTable.ChunkWidth; z++)
 				{
-
-					//voxelMap[x, y, z] = minValley + Mathf.PerlinNoise((x + coordinaten.x * VertexTable.ChunkWidth) * persistance , (z + coordinaten.y * VertexTable.ChunkWidth) * persistance) * ampletude > y;
-					/*
-					if(y == Mathf.Floor(minValley + noiseMap[x, z] * ampletude))
-						voxelMap[x, y, z] = 1;
-					
-					if (y < Mathf.Floor(minValley + noiseMap[x, z] * ampletude))
-						voxelMap[x, y, z] = 2;
-					
-					if (y < Mathf.Floor(minValley + noiseMap[x, z] * ampletude - 2))
-						voxelMap[x, y, z] = 3;
-					
-					if(y == 0)
-						voxelMap[x, y, z] = 4;
-					*/
-
 					voxelMap[x, y, z] = world.GetVoxel(new Vector3(x, y, z) + position);
 
 				}
@@ -159,6 +146,7 @@ public class ChunkGenerator
 	{
 	
 		Mesh mesh = new Mesh();
+		
 		mesh.indexFormat = IndexFormat.UInt32;
 		mesh.vertices = vertices.ToArray();
 		mesh.triangles = triangles.ToArray();
@@ -167,18 +155,7 @@ public class ChunkGenerator
 		mesh.RecalculateNormals();
 
 		meshFilter.mesh = mesh;
+		_meshCollider.sharedMesh = mesh;
 	}
 	
-}
-
-public class ChunkCords
-{
-	public int x;
-	public int z;
-
-	public ChunkCords(int _x, int _z)
-	{
-		x = _x;
-		z = _z;
-	}
 }

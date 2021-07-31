@@ -5,7 +5,7 @@ using UnityEngine;
 public static class VertexTable
 {
   public static readonly int ChunkWidth = 16;
-  public static readonly int ChunkHeight = 100;
+  public static readonly int ChunkHeight = 255;
   public static readonly int WorldSizeInChunks = 100;
 
   public static int WorldSizeInBlocks {
@@ -14,7 +14,7 @@ public static class VertexTable
 
   }
 
-  public static readonly int VewdistanceInChunks = 5;
+  public static readonly int VewdistanceInChunks = 16;
 
   public static readonly int TextureAtlasSizeInBlocks = 4;
   public static float NormalizedBlockTextureSize {

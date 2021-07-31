@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class World : MonoBehaviour
 {
@@ -10,12 +11,15 @@ public class World : MonoBehaviour
     public Material material;
     public BlockType[] blocktypes;
 
+    public byte loadChunksAtOnce;
+
     ChunkGenerator[,] chunks = new ChunkGenerator[VertexTable.WorldSizeInChunks, VertexTable.WorldSizeInChunks];
     List<ChunkCoord> activeChunks = new List<ChunkCoord>();
     ChunkCoord playerLastChunkCoord;
     private float[,] noiseMap;
+    private List<ChunkCoord> newChunks = new List<ChunkCoord>();
 
-    /*[Header("Noise")]
+    [Header("Noise")]
     [SerializeField] private int minValley;
     [SerializeField] private float ampletude;
     
@@ -25,12 +29,12 @@ public class World : MonoBehaviour
     [SerializeField] private float persistance;
     [SerializeField] private float lacunarity;
     [SerializeField] private Vector2 offset;
-    [SerializeField] private Vector2 chunkPos;*/
+    [SerializeField] private Vector2 chunkPos;
 
     private void Start()
     {
 
-        //noiseMap = Noise.GenerateNoiseMap(seed, scale, octaves, persistance, lacunarity, offset, chunkPos);
+        noiseMap = Noise.GenerateNoiseMap(Random.Range(0,Int32.MaxValue), scale, octaves, persistance, lacunarity, offset, chunkPos);
         GenerateWorld();
         playerLastChunkCoord = GetChunkCoordFromVector3(player.transform.position);
 
@@ -40,7 +44,12 @@ public class World : MonoBehaviour
 
         if (!GetChunkCoordFromVector3(player.transform.position).Equals(playerLastChunkCoord))
             CheckViewDistance();
-
+        if(newChunks.Count <= 0) return;
+        for (int x = 0; x < loadChunksAtOnce; x++)
+        {
+            CreateChunk(newChunks[x]);
+            newChunks.Remove(newChunks[x]);
+        }
     }
 
     ChunkCoord GetChunkCoordFromVector3 (Vector3 pos) {
@@ -61,7 +70,7 @@ public class World : MonoBehaviour
             }
         }
 
-        spawn = new Vector3(VertexTable.WorldSizeInBlocks / 2, VertexTable.ChunkHeight + 2, VertexTable.WorldSizeInBlocks / 2);
+        spawn = new Vector3(VertexTable.WorldSizeInBlocks / 2, minValley + noiseMap[(int)0, (int)0] * ampletude + 2, VertexTable.WorldSizeInBlocks / 2);
         player.position = spawn;
 
     }
@@ -82,7 +91,11 @@ public class World : MonoBehaviour
                     ChunkCoord thisChunk = new ChunkCoord(x, z);
 
                     if (chunks[x, z] == null)
-                        CreateChunk(thisChunk);
+                    {
+                        if(!newChunks.Contains(thisChunk))
+                            newChunks.Add(thisChunk);
+                    }
+                    
                     else if (!chunks[x, z].isActive) {
                         chunks[x, z].isActive = true;
                         activeChunks.Add(thisChunk);
@@ -101,10 +114,30 @@ public class World : MonoBehaviour
         }
 
         foreach (ChunkCoord coord in previouslyActiveChunks)
+        {
             chunks[coord.x, coord.z].isActive = false;
+            newChunks.Remove(coord);
+            
+        }
+
 
     }
+    public bool CheckForVoxel (float _x, float _y, float _z) {
 
+        int xCheck = Mathf.FloorToInt(_x);
+        int yCheck = Mathf.FloorToInt(_y);
+        int zCheck = Mathf.FloorToInt(_z);
+
+        int xChunk = xCheck / VertexTable.ChunkWidth;
+        int zChunk = zCheck / VertexTable.ChunkWidth;
+
+        xCheck -= (xChunk * VertexTable.ChunkWidth);
+        zCheck -= (zChunk * VertexTable.ChunkWidth);
+
+        return blocktypes[chunks[xChunk, zChunk].voxelMap[xCheck, yCheck, zCheck]].isSolid;
+
+    }
+    
     bool IsChunkInWorld(int x, int z) {
 
         if (x > 0 && x < VertexTable.WorldSizeInChunks - 1 && z > 0 && z < VertexTable.WorldSizeInChunks - 1)
@@ -113,18 +146,20 @@ public class World : MonoBehaviour
             return false;
 
     }
+    
 
     private void CreateChunk (ChunkCoord coord) {
 
-        chunks[coord.x, coord.z] = new ChunkGenerator(new ChunkCords(coord.x, coord.z), this);
+        chunks[coord.x, coord.z] = new ChunkGenerator(new ChunkCoord(coord.x, coord.z), this);
         activeChunks.Add(new ChunkCoord(coord.x, coord.z));
-
-
     }
 
     public byte GetVoxel (Vector3 pos)
     {
-        /*
+        byte currentBlockID = 0;
+        
+        if (pos.x < 0 || pos.x > VertexTable.WorldSizeInBlocks - 1 || pos.y < 0 || pos.y > VertexTable.ChunkHeight - 1 || pos.z < 0 || pos.z > VertexTable.WorldSizeInBlocks - 1)
+            currentBlockID = 0;
         if(pos.y == Mathf.Floor(minValley + noiseMap[(int)pos.x, (int)pos.z] * ampletude))
             currentBlockID = 1;
 					
@@ -135,21 +170,8 @@ public class World : MonoBehaviour
             currentBlockID = 3;
 					
         if(pos.y == 0)
-            currentBlockID = 4;*/
-        
-        
-        byte currentBlockID = 0;
-            
-        if (pos.x < 0 || pos.x > VertexTable.WorldSizeInBlocks - 1 || pos.y < 0 || pos.y > VertexTable.ChunkHeight - 1 || pos.z < 0 || pos.z > VertexTable.WorldSizeInBlocks - 1)
-            currentBlockID = 0;
-        if (pos.y == VertexTable.ChunkHeight - 1)
-            currentBlockID = 1;
-        if (pos.y <= VertexTable.ChunkHeight - 1)
-            currentBlockID = 2;
-        if (pos.y <= VertexTable.ChunkHeight - 5)
-            currentBlockID = 3;
-        if (pos.y == 1)
             currentBlockID = 4;
+        
         
         return currentBlockID;
 
@@ -157,7 +179,7 @@ public class World : MonoBehaviour
 
 }
 
-public class ChunkCoord {
+public struct ChunkCoord {
 
     public int x;
     public int z;
@@ -169,15 +191,9 @@ public class ChunkCoord {
 
     }
 
-    public bool Equals(ChunkCoord other) {
-
-        if (other == null)
-            return false;
-        else if (other.x == x && other.z == z)
-            return true;
-        else
-            return false;
-
+    public bool Equals(ChunkCoord other)
+    {
+        return other.x == x && other.z == z;
     }
 }
 

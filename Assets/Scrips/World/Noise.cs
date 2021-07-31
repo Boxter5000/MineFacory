@@ -5,7 +5,7 @@ using UnityEngine;
 public class Noise : MonoBehaviour
 {
    public static float[,] GenerateNoiseMap(int seed, float scale, int octaves, float persistance, float lacunarity, Vector2 offset, Vector2 chunkPos) {
-        float[,] noiseMap = new float[VertexTable.ChunkWidth,VertexTable.ChunkHeight];
+        float[,] noiseMap = new float[VertexTable.WorldSizeInBlocks,VertexTable.WorldSizeInBlocks];
 
         System.Random prng = new System.Random (seed);
         Vector2[] octaveOffsets = new Vector2[octaves];
@@ -22,12 +22,12 @@ public class Noise : MonoBehaviour
         float maxNoiseHeight = float.MinValue;
         float minNoiseHeight = float.MaxValue;
 
-        float halfWidth = VertexTable.ChunkWidth / 2f;
-        float halfHeight = VertexTable.ChunkHeight / 2f;
+        float halfWidth = VertexTable.WorldSizeInBlocks / 2f;
+        float halfHeight = VertexTable.WorldSizeInBlocks / 2f;
 
 
-        for (int y = (int)chunkPos.y * VertexTable.ChunkWidth; y < VertexTable.ChunkWidth * (1 + chunkPos.y); y++) {
-            for (int x = (int)chunkPos.x * VertexTable.ChunkWidth; x < VertexTable.ChunkWidth * (1 + chunkPos.x); x++) {
+        for (int y = (int)chunkPos.y * VertexTable.WorldSizeInBlocks; y < VertexTable.WorldSizeInBlocks * (1 + chunkPos.y); y++) {
+            for (int x = (int)chunkPos.x * VertexTable.WorldSizeInBlocks; x < VertexTable.WorldSizeInBlocks * (1 + chunkPos.x); x++) {
 
                 float amplitude = 1;
                 float frequency = 1;
@@ -49,12 +49,12 @@ public class Noise : MonoBehaviour
                 } else if (noiseHeight < minNoiseHeight) {
                     minNoiseHeight = noiseHeight;
                 }
-                noiseMap [x % VertexTable.ChunkWidth, y % VertexTable.ChunkWidth] = noiseHeight;
+                noiseMap [x % VertexTable.WorldSizeInBlocks, y % VertexTable.WorldSizeInBlocks] = noiseHeight;
             }
         }
 
-        for (int y = 0; y < VertexTable.ChunkHeight; y++) {
-            for (int x = 0; x < VertexTable.ChunkWidth; x++) {
+        for (int y = 0; y < VertexTable.WorldSizeInBlocks; y++) {
+            for (int x = 0; x < VertexTable.WorldSizeInBlocks; x++) {
                 noiseMap [x, y] = Mathf.InverseLerp (minNoiseHeight, maxNoiseHeight, noiseMap [x, y]);
             }
         }

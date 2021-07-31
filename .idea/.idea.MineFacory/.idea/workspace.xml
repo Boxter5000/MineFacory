@@ -19,11 +19,9 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Scrips/NoiseDisplay/MapGenerator.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scrips/Noise.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scrips/NoiseDisplay/Noise_2.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scrips/NoiseDisplay/MapDisplay.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scrips/World.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scrips/Player/PlayerController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scrips/Player/Player.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scrips/Player/CameraController.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -31,11 +29,16 @@
       <option value="$PROJECT_DIR$/Assets/Scrips/NoiseDisplay/Noise_2.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/NoiseDisplay/MapGenerator.cs" />
       <option value="$PROJECT_DIR$/Assets/MapGeneratorEditor.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scrips/Noise.cs" />
       <option value="$PROJECT_DIR$/Assets/SunnlightRotation.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/Noise.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/ChunkGenerator.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scrips/VertexTable.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/World.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/VertexTable.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/Chunk/ChunkGenerator.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/Player/CameraController.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/Player/PlayerController.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/Player/Player.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/World/World.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1vzbxtS5iFd4wW2ryAzVwrfiOyt" />
