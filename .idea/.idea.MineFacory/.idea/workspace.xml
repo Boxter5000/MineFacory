@@ -21,6 +21,7 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Scrips/Player/PlayerController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scrips/Player/Player.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scrips/World/NoiseMap.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scrips/Player/CameraController.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
@@ -37,8 +38,9 @@
       <option value="$PROJECT_DIR$/Assets/Scrips/Chunk/ChunkGenerator.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/Player/CameraController.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/Player/PlayerController.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scrips/Player/Player.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/World/World.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/Player/Player.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/World/NoiseMap.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1vzbxtS5iFd4wW2ryAzVwrfiOyt" />
@@ -89,6 +91,7 @@
       <option name="presentableId" value="Default" />
       <updated>1627568146677</updated>
       <workItem from="1627568184679" duration="25279000" />
+      <workItem from="1627928846371" duration="12258000" />
     </task>
     <servers />
   </component>
