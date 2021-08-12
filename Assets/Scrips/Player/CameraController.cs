@@ -8,8 +8,8 @@ public class CameraController : MonoBehaviour
 
     private Transform viewOwner;
 
-    private const float MaxTurnY = 90.0f;
-    private const float MinTurnY = -90.0f; 
+    private const float MaxTurnY = 89.9f;
+    private const float MinTurnY = -89.9f; 
 
     private float rotY = 0.0f;
     void Start()

@@ -2,63 +2,57 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Noise : MonoBehaviour
-{
-   public static float[,] GenerateNoiseMap(int seed, float scale, int octaves, float persistance, float lacunarity, Vector2 offset, Vector2 chunkPos) {
-        float[,] noiseMap = new float[VertexTable.WorldSizeInBlocks,VertexTable.WorldSizeInBlocks];
+public static class Noise  {
 
-        System.Random prng = new System.Random (seed);
-        Vector2[] octaveOffsets = new Vector2[octaves];
-        for (int i = 0; i < octaves; i++) {
-            float offsetX = prng.Next (-100000, 100000) + offset.x;
-            float offsetY = prng.Next (-100000, 100000) + offset.y;
-            octaveOffsets [i] = new Vector2 (offsetX, offsetY);
+    public static float Get2DPerlin (Vector2 position, float offset, float scale, int octaves, float persistance, float lacunarity, float redistribution)
+    {
+        if (scale <= 0)
+        {
+            scale = 0.00001f;
         }
 
-        if (scale <= 0) {
-            scale = 0.0001f;
+        float amplitude = 1;
+        float frequency = 1;
+        float noiseHeight = 0;
+        
+        float elevation;
+
+        for (int i = 0; i < octaves; i++)
+        {
+            float sampleX = position.x / scale * frequency;
+            float sampleY = position.y / scale * frequency;
+
+            float e = Mathf.PerlinNoise(sampleX, sampleY);
+            noiseHeight += e * amplitude;
+
+            amplitude *= persistance;
+            frequency *= lacunarity;
         }
-
-        float maxNoiseHeight = float.MinValue;
-        float minNoiseHeight = float.MaxValue;
-
-        float halfWidth = VertexTable.WorldSizeInBlocks / 2f;
-        float halfHeight = VertexTable.WorldSizeInBlocks / 2f;
-
-
-        for (int y = (int)chunkPos.y * VertexTable.WorldSizeInBlocks; y < VertexTable.WorldSizeInBlocks * (1 + chunkPos.y); y++) {
-            for (int x = (int)chunkPos.x * VertexTable.WorldSizeInBlocks; x < VertexTable.WorldSizeInBlocks * (1 + chunkPos.x); x++) {
-
-                float amplitude = 1;
-                float frequency = 1;
-                float noiseHeight = 0;
-
-                for (int i = 0; i < octaves; i++) {
-                    float sampleX = (x-halfWidth) / scale * frequency + octaveOffsets[i].x;
-                    float sampleY = (y-halfWidth) / scale * frequency + octaveOffsets[i].y;
-
-                    float perlinValue = Mathf.PerlinNoise (sampleX, sampleY) * 2 - 1;
-                    noiseHeight += perlinValue * amplitude;
-
-                    amplitude *= persistance;
-                    frequency *= lacunarity;
-                }
-
-                if (noiseHeight > maxNoiseHeight) {
-                    maxNoiseHeight = noiseHeight;
-                } else if (noiseHeight < minNoiseHeight) {
-                    minNoiseHeight = noiseHeight;
-                }
-                noiseMap [x % VertexTable.WorldSizeInBlocks, y % VertexTable.WorldSizeInBlocks] = noiseHeight;
-            }
-        }
-
-        for (int y = 0; y < VertexTable.WorldSizeInBlocks; y++) {
-            for (int x = 0; x < VertexTable.WorldSizeInBlocks; x++) {
-                noiseMap [x, y] = Mathf.InverseLerp (minNoiseHeight, maxNoiseHeight, noiseMap [x, y]);
-            }
-        }
-
-        return noiseMap;
+        elevation = noiseHeight;
+        
+        return (Mathf.Pow(elevation, redistribution));
     }
+
+    public static bool Get3DPerlin (Vector3 position, float offset, float scale, float threshold) {
+
+        // https://www.youtube.com/watch?v=Aga0TBJkchM Carpilot on YouTube
+
+        float x = (position.x + offset + 0.1f) * scale;
+        float y = (position.y + offset + 0.1f) * scale;
+        float z = (position.z + offset + 0.1f) * scale;
+
+        float AB = Mathf.PerlinNoise(x, y);
+        float BC = Mathf.PerlinNoise(y, z);
+        float AC = Mathf.PerlinNoise(x, z);
+        float BA = Mathf.PerlinNoise(y, x);
+        float CB = Mathf.PerlinNoise(z, y);
+        float CA = Mathf.PerlinNoise(z, x);
+
+        if ((AB + BC + AC + BA + CB + CA) / 6f > threshold)
+            return true;
+        else
+            return false;
+
+    }
+
 }

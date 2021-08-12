@@ -19,10 +19,10 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Scrips/Player/PlayerController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scrips/Player/Player.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scrips/World/NoiseMap.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scrips/Toolbar.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scrips/Player/CameraController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scrips/World/BiomeAttributes.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -36,11 +36,18 @@
       <option value="$PROJECT_DIR$/Assets/Scrips/World.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/VertexTable.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/Chunk/ChunkGenerator.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scrips/Player/CameraController.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/Player/PlayerController.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scrips/World/World.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scrips/Player/Player.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/World/NoiseMap.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/Chunk/VertexTable.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/World/BiomeAttrebute.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/Player/Player.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/Toolbar.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/Chunk/Chunk.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/Chunk/VoxelData.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/World/Noise.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/World/BiomeAttributes.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/Player/CameraController.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/World/World.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1vzbxtS5iFd4wW2ryAzVwrfiOyt" />
@@ -92,6 +99,9 @@
       <updated>1627568146677</updated>
       <workItem from="1627568184679" duration="25279000" />
       <workItem from="1627928846371" duration="12258000" />
+      <workItem from="1628018441719" duration="1707000" />
+      <workItem from="1628190164194" duration="657000" />
+      <workItem from="1628535033413" duration="12764000" />
     </task>
     <servers />
   </component>

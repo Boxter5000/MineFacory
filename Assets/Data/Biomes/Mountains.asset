@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01d1e1dd1fea737419c72b8013d0c71c, type: 3}
+  m_Name: Mountains
+  m_EditorClassIdentifier: 
+  biomeName: Default
+  solidGroundHeight: 10
+  terrainHeight: 35
+  terrainScale: 200
+  redistribution: 2
+  octaves: 6
+  persistance: 0.3
+  lacunarity: 1.8
+  lodes:
+  - nodeName: dirt
+    blockID: 2
+    minHeight: 1
+    maxHeight: 255
+    scale: 0.5
+    threshold: 0.1
+    noiseOffset: 3
