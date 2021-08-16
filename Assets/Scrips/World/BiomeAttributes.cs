@@ -16,6 +16,14 @@ public class BiomeAttributes : ScriptableObject {
     public float lacunarity;
 
     public Lode[] lodes;
+    
+    //Trees
+
+    public float treeareaThreshold;
+    public float treeareaScale;
+
+    public float treePlacementThreshold;
+    public float treePlacemetScale;
 
 }
 

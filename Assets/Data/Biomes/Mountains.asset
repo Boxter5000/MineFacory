@@ -28,3 +28,7 @@ MonoBehaviour:
     scale: 0.5
     threshold: 0.1
     noiseOffset: 3
+  treeareaThreshold: 0.6
+  treeareaScale: 1.3
+  treePlacementThreshold: 0.8
+  treePlacemetScale: 15

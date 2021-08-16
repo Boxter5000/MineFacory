@@ -193,6 +193,9 @@ public class World : MonoBehaviour {
                                              Noise.Get2DPerlin(new Vector2(pos.x, pos.z), 0, 
                                                  biome.terrainScale,biome.octaves,biome.persistance ,biome.lacunarity , biome.redistribution))
                                                 + biome.solidGroundHeight;
+        float treeHeight = Noise.GetTreeNoise(new Vector2(pos.x, pos.z), biome.treeareaScale);
+        float treePlacement = Noise.GetTreeNoise(new Vector2(pos.x, pos.z), biome.treePlacemetScale);
+        
         byte voxelValue = 0;
 
         if (yPos == terrainHeight)
@@ -216,6 +219,15 @@ public class World : MonoBehaviour {
 
             }
 
+        }
+        
+        if (yPos - 1 == terrainHeight && treeHeight > biome.treeareaThreshold)
+        {
+            
+            if (treePlacement > biome.treePlacementThreshold)
+            {
+                voxelValue = 8;
+            }
         }
 
         return voxelValue;
