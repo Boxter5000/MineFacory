@@ -15,6 +15,18 @@ public class BiomeAttributes : ScriptableObject {
     public float persistance;
     public float lacunarity;
 
+    [Header(("Trees"))] 
+    public float treeZoneScale = 1.3f;
+    [Range(0.01f, 1f)]
+    public float treeZoneThreshold = 0.6f;
+
+    public float treePlacementScale;
+    [Range(0.01f, 1f)]
+    public float treePlacementThreshold;
+
+    public int maxTreeHeight = 7;
+    public int minTreeHeight = 4;
+    
     public Lode[] lodes;
 
 }

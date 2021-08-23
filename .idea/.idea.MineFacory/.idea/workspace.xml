@@ -20,8 +20,8 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Scrips/Player/Player.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scrips/Toolbar.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scrips/Player/CameraController.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scrips/World/Structure.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scrips/World/BiomeAttributes.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
@@ -42,11 +42,12 @@
       <option value="$PROJECT_DIR$/Assets/Scrips/World/BiomeAttrebute.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/Player/Player.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/Toolbar.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scrips/Chunk/Chunk.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/Player/CameraController.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/Chunk/VoxelData.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/World/Noise.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/World/BiomeAttributes.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scrips/Player/CameraController.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/Chunk/Chunk.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/World/Structure.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/World/World.cs" />
     </changedPaths>
   </component>
@@ -102,6 +103,8 @@
       <workItem from="1628018441719" duration="1707000" />
       <workItem from="1628190164194" duration="657000" />
       <workItem from="1628535033413" duration="12764000" />
+      <workItem from="1628779699355" duration="1918000" />
+      <workItem from="1629136371512" duration="3601000" />
     </task>
     <servers />
   </component>

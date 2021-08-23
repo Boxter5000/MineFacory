@@ -32,6 +32,12 @@ public static class Noise  {
         
         return (Mathf.Pow(elevation, redistribution));
     }
+    
+    public static float GetStructurPerlin (Vector2 position, float offset, float scale) {
+
+        return Mathf.PerlinNoise((position.x + 0.1f) / VoxelData.ChunkWidth * scale + offset, (position.y + 0.1f) / VoxelData.ChunkWidth * scale + offset);
+
+    }
 
     public static bool Get3DPerlin (Vector3 position, float offset, float scale, float threshold) {
 
