@@ -1078,6 +1078,7 @@ MonoBehaviour:
   checkIncrement: 0.01
   reach: 8
   selectedBlockIndex: 1
+  rotationSpeed: 5
 --- !u!114 &640901985 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6792173688093249942, guid: be3f79f79007f074fa6443237a75f112, type: 3}

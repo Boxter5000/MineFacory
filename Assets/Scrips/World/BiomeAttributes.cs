@@ -27,7 +27,7 @@ public class BiomeAttributes : ScriptableObject {
     public int maxTreeHeight = 7;
     public int minTreeHeight = 4;
 
-    public int treeRaduius = 5;
+    public float treeRaduius = 5;
     
     public Lode[] lodes;
 

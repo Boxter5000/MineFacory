@@ -34,6 +34,12 @@ public class Player : MonoBehaviour {
     public float reach = 8f;
     
     public byte selectedBlockIndex = 1;
+    
+    private const float MaxTurnY = 89.9f;
+    private const float MinTurnY = -89.9f; 
+    [SerializeField] private float rotationSpeed = 10f;
+
+    private float rotY = 0.0f;
 
     private void Start() {
 
@@ -50,8 +56,8 @@ public class Player : MonoBehaviour {
         if (jumpRequest)
             Jump();
 
-        transform.Rotate(Vector3.up * mouseHorizontal);
-        cam.Rotate(Vector3.right * -mouseVertical);
+        //transform.Rotate(Vector3.up * mouseHorizontal);
+        //scam.Rotate(Vector3.right * -mouseVertical);
         transform.Translate(velocity, Space.World);
 
     }
@@ -60,6 +66,12 @@ public class Player : MonoBehaviour {
 
         GetPlayerInputs();
         placeCursorBlocks();
+        
+
+       
+        mouseVertical = Mathf.Clamp(mouseVertical, MinTurnY, MaxTurnY);
+        transform.eulerAngles += new Vector3(transform.eulerAngles.x, mouseHorizontal, 0);
+        cam.eulerAngles = new Vector3(mouseVertical, cam.eulerAngles.y, 0);
     }
 
     void Jump () {
@@ -102,8 +114,8 @@ public class Player : MonoBehaviour {
 
         horizontal = Input.GetAxis("Horizontal");
         vertical = Input.GetAxis("Vertical");
-        mouseHorizontal = Input.GetAxis("Mouse X");
-        mouseVertical = Input.GetAxis("Mouse Y");
+        mouseHorizontal = Input.GetAxis("Mouse X") * rotationSpeed;
+        mouseVertical -= Input.GetAxis("Mouse Y") * rotationSpeed;
 
         if (Input.GetButtonDown("Sprint"))
             isSprinting = true;

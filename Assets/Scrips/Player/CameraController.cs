@@ -19,7 +19,7 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        float rotX = Input.GetAxis("Mouse X") * rotationSpeed;
+      /*  float rotX = Input.GetAxis("Mouse X") * rotationSpeed;
 
         rotY -= Input.GetAxis("Mouse Y") * rotationSpeed;
         rotY = Mathf.Clamp(rotY, MinTurnY, MaxTurnY);
@@ -27,6 +27,6 @@ public class CameraController : MonoBehaviour
 
         viewOwner.eulerAngles += new Vector3(viewOwner.eulerAngles.x, rotX, 0);
 
-        transform.eulerAngles = new Vector3(rotY, transform.eulerAngles.y, 0);
+        transform.eulerAngles = new Vector3(rotY, transform.eulerAngles.y, 0);*/
     }
 }

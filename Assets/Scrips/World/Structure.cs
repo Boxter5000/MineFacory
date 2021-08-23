@@ -4,38 +4,40 @@ using UnityEngine;
 
 public static class Structure
 {
-    public static void MakeTree(Vector3 position, Queue<VoxelMod> queue, int minTrunkHeight, int maxTrunkHeight, int radius)
+    public static void MakeTree(Vector3 position, Queue<VoxelMod> queue, int minTrunkHeight, int maxTrunkHeight, float radius)
     {
-        double thickness = 0.4;
         int height = (int) (maxTrunkHeight * Noise.GetStructurPerlin(new Vector2(position.x, position.z), 250f, 3f));
-        double rIn =radius- thickness, rOut = radius + thickness;
-        
+        int leaveState = 0;
         
         if (height < minTrunkHeight)
             height = minTrunkHeight;
-        
-        /*for (int x = -2; x < 3; x++)
+
+        int cRadius = (int)Mathf.Ceil(radius);
+
+        for (int y = cRadius - 1; y > 0 ; y--)
         {
-            for (int y = 0; y < 5; y++)
+            for (int x = -cRadius; x <= cRadius; x++)
             {
-                for (int z = -2; z < 3; z++)
+                for (int z = -cRadius; z <= cRadius; z++)
                 {
-                    queue.Enqueue(new VoxelMod(new Vector3(position.x + x, position.y + height + y, position.z + z), 11));
+                    if ((Mathf.Abs(x) + Mathf.Abs(z)) <= y)
+                        queue.Enqueue(new VoxelMod(
+                            new Vector3(position.x + x, position.y + height + (cRadius - y), position.z + z), 11));
+
+                    leaveState++;
                 }
             }
-        }*/
+        }
 
-        for (int z = 0; z < height; z++)
+
+        for(int y = height; y > height - 2; y--)
         {
-            for (float y = radius; y >= radius; ++y)
+            for(int z = -cRadius ; z <= cRadius; z++)
             {
-                for (float x = -radius; x < rOut; x += 0.5f)
+                for(int x = -cRadius; x <= cRadius; x++)
                 {
-                    float value = x * x + y * y;
-                    if (value >= rIn * rIn && value <= rOut * rOut)
-                    {
-                        queue.Enqueue(new VoxelMod(new Vector3(position.x + x, position.y + height + y, position.z + z), 11));
-                    }
+                    if((radius * radius) >= (x * x + z * z))
+                        queue.Enqueue(new VoxelMod(new Vector3(position.x + x, position.y + y, position.z + z), 11));
                 }
             }
         }
