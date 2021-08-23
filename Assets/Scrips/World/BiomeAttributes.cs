@@ -28,6 +28,14 @@ public class BiomeAttributes : ScriptableObject {
     public int minTreeHeight = 4;
     
     public Lode[] lodes;
+    
+    //Trees
+
+    public float treeareaThreshold;
+    public float treeareaScale;
+
+    public float treePlacementThreshold;
+    public float treePlacemetScale;
 
 }
 

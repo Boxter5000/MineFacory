@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="952a0030-68ad-4a08-914d-9e42b50914b1" name="Default Changelist" comment="" />
+    <list default="true" id="952a0030-68ad-4a08-914d-9e42b50914b1" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.MineFacory/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MineFacory/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scrips/World/BiomeAttributes.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scrips/World/BiomeAttributes.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scrips/World/Noise.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scrips/World/Noise.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scrips/World/World.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scrips/World/World.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,10 +25,10 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Scrips/Player/Player.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scrips/Player/CameraController.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scrips/World/Structure.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scrips/Player/Player.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scrips/World/BiomeAttributes.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scrips/Toolbar.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -42,12 +48,11 @@
       <option value="$PROJECT_DIR$/Assets/Scrips/World/BiomeAttrebute.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/Player/Player.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/Toolbar.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scrips/Player/CameraController.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/Chunk/Chunk.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/Chunk/VoxelData.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/Player/CameraController.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/World/Noise.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/World/BiomeAttributes.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scrips/Chunk/Chunk.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scrips/World/Structure.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/World/World.cs" />
     </changedPaths>
   </component>
@@ -103,8 +108,7 @@
       <workItem from="1628018441719" duration="1707000" />
       <workItem from="1628190164194" duration="657000" />
       <workItem from="1628535033413" duration="12764000" />
-      <workItem from="1628779699355" duration="1918000" />
-      <workItem from="1629136371512" duration="3601000" />
+      <workItem from="1629121002000" duration="305000" />
     </task>
     <servers />
   </component>
