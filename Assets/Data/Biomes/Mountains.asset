@@ -26,7 +26,7 @@ MonoBehaviour:
   treePlacementThreshold: 0.8
   maxTreeHeight: 7
   minTreeHeight: 4
-  treeRaduius: 5
+  treeRaduius: 2.5
   lodes:
   - nodeName: dirt
     blockID: 2
