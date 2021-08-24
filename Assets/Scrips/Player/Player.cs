@@ -38,7 +38,7 @@ public class Player : MonoBehaviour {
     private const float MaxTurnY = 89.9f;
     private const float MinTurnY = -89.9f; 
     [SerializeField] private float rotationSpeed = 10f;
-
+    
     private float rotY = 0.0f;
 
     private void Start() {
@@ -112,35 +112,48 @@ public class Player : MonoBehaviour {
 
     private void GetPlayerInputs () {
 
-        horizontal = Input.GetAxis("Horizontal");
-        vertical = Input.GetAxis("Vertical");
-        mouseHorizontal = Input.GetAxis("Mouse X") * rotationSpeed;
-        mouseVertical -= Input.GetAxis("Mouse Y") * rotationSpeed;
-
-        if (Input.GetButtonDown("Sprint"))
-            isSprinting = true;
-        if (Input.GetButtonUp("Sprint"))
-            isSprinting = false;
-
-        if (isGrounded && Input.GetButtonDown("Jump"))
-            jumpRequest = true;
-
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        if (Input.GetButtonDown("Inventory") || (world.isInventoryOpen && Input.GetKeyDown(KeyCode.Escape)))
+        {
+            world.isInventoryOpen = !world.isInventoryOpen;
+        }
         
+        if (!world.isInventoryOpen)
+        {
+            horizontal = Input.GetAxis("Horizontal");
+            vertical = Input.GetAxis("Vertical");
+            mouseHorizontal = Input.GetAxis("Mouse X") * rotationSpeed;
+            mouseVertical -= Input.GetAxis("Mouse Y") * rotationSpeed;
 
-        if (highlightBlock.gameObject.activeSelf) {
+            if (Input.GetButtonDown("Sprint"))
+                isSprinting = true;
+            if (Input.GetButtonUp("Sprint"))
+                isSprinting = false;
 
-            // Destroy block.
-            if (Input.GetMouseButtonDown(0))
-                world.GetChunkFromVector3(highlightBlock.position).EditVoxel(highlightBlock.position, 0);
+            if (isGrounded && Input.GetButtonDown("Jump"))
+                jumpRequest = true;
 
-            // Place block.
-            if (Input.GetMouseButtonDown(1))
-                world.GetChunkFromVector3(placeBlock.position).EditVoxel(placeBlock.position, selectedBlockIndex);
+            float scroll = Input.GetAxis("Mouse ScrollWheel");
+            Cursor.lockState = CursorLockMode.Locked;
+            if (highlightBlock.gameObject.activeSelf) {
+
+                // Destroy block.
+                if (Input.GetMouseButtonDown(0))
+                    world.GetChunkFromVector3(highlightBlock.position).EditVoxel(highlightBlock.position, 0);
+
+                // Place block.
+                if (Input.GetMouseButtonDown(1))
+                    world.GetChunkFromVector3(placeBlock.position).EditVoxel(placeBlock.position, selectedBlockIndex);
 
             
+            }
         }
-
+        else
+        {
+            horizontal = 0;
+            vertical = 0;
+            mouseHorizontal = 0;
+            Cursor.lockState = CursorLockMode.Confined;
+        }
     }
 
     private void placeCursorBlocks () {

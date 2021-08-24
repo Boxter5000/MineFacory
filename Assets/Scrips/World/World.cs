@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class World : MonoBehaviour {
 
@@ -28,7 +29,9 @@ public class World : MonoBehaviour {
     List<Chunk> chunksToUpdate = new List<Chunk>();
     bool applyingModifications = false;
 
+    public bool isInventoryOpen;
     public GameObject debugScreen;
+    public GameObject inventoryScreen;
 
     private void Start() {
 
@@ -63,6 +66,15 @@ public class World : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.F3))
             debugScreen.SetActive(!debugScreen.activeSelf);
+
+        if (isInventoryOpen)
+        {
+            inventoryScreen.SetActive(true);
+        }
+        else
+        {
+            inventoryScreen.SetActive(false);
+        }
 
 
     }
@@ -354,6 +366,9 @@ public class BlockType {
     public int bottomFaceTexture;
     public int leftFaceTexture;
     public int rightFaceTexture;
+
+    [Header("ItemTextur")] 
+    public Sprite itemImage;
 
     // Back, Front, Top, Bottom, Left, Right
 

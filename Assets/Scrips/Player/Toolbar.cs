@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class Toolbar : MonoBehaviour
 {
-    private World world;
+    /*private World world;
     public Player player;
 
     public RectTransform highlight;
@@ -46,12 +46,5 @@ public class Toolbar : MonoBehaviour
             highlight.position = itemSlots[slotIndex].icon.transform.position;
             player.selectedBlockIndex = itemSlots[slotIndex].itemID;
         }
-    }
-}
-
-[System.Serializable]
-public class ItemSlot
-{
-    public byte itemID;
-    public Image icon;
+    }*/
 }
