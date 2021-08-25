@@ -15,6 +15,13 @@ public class BiomeAttributes : ScriptableObject {
     public float persistance;
     public float lacunarity;
 
+    public int offset;
+    public float biomeScale;
+
+    [Header("Surface blocks")] 
+    public byte surfaceBlock;
+    public byte subSurfaceBlock;
+
     [Header(("Trees"))] 
     public float treeZoneScale = 1.3f;
     [Range(0.01f, 1f)]

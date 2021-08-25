@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class World : MonoBehaviour {
 
     public int seed;
-    public BiomeAttributes biome;
 
     public Transform player;
     public Vector3 spawnPosition;
@@ -15,7 +14,8 @@ public class World : MonoBehaviour {
     public Material transparentMaterial;
     
     public BlockType[] blocktypes;
-
+    public BiomeAttributes[] biomes;
+    
     Chunk[,] chunks = new Chunk[VoxelData.WorldSizeInChunks, VoxelData.WorldSizeInChunks];
 
     List<ChunkCoord> activeChunks = new List<ChunkCoord>();
@@ -277,20 +277,68 @@ public class World : MonoBehaviour {
         // If bottom block of chunk, return bedrock.
         if (yPos == 0)
             return 6;
+        
+        
+        /* biome Selekt PASS */
 
+        int solidGroundHeight = 42;
+        float sumOfHeights = 0f;
+        int count = 0;
+        float strongestWeight = 0f;
+        int strongestBiomeIndex = 0;
+
+
+        
+        for (int i = 0; i < biomes.Length; i++) {
+
+            float weight = Noise.GetStructurPerlin(new Vector2(pos.x, pos.z), biomes[i].offset, biomes[i].terrainScale);
+
+            // Keep track of which weight is strongest.
+            if (weight > strongestWeight) {
+
+                strongestWeight = weight;
+                strongestBiomeIndex = i;
+
+            }
+
+            // Get the height of the terrain (for the current biome) and multiply it by its weight.
+            float height = biomes[i].terrainHeight * Noise.GetStructurPerlin(new Vector2(pos.x, pos.z), 0, biomes[i].terrainScale) * weight;
+
+            // If the height value is greater 0 add it to the sum of heights.
+            if (height > 0) {
+
+                sumOfHeights += height;
+                count++;
+
+            }
+
+        }
+
+        // Set biome to the one with the strongest weight.
+        BiomeAttributes biome = biomes[strongestBiomeIndex];
+
+        // Get the average of the heights.
+        
+
+        
+        sumOfHeights /= count;
+
+        int terrainHeight = Mathf.FloorToInt(sumOfHeights + solidGroundHeight);
+        
+        
         /* BASIC TERRAIN PASS */
 
-        int terrainHeight = Mathf.FloorToInt(biome.terrainHeight *
+        /*int terrainHeight = Mathf.FloorToInt(biome.terrainHeight *
                                              Noise.Get2DPerlin(new Vector2(pos.x, pos.z), 0, 
                                                  biome.terrainScale,biome.octaves,biome.persistance ,biome.lacunarity , biome.redistribution))
-                                                + biome.solidGroundHeight;
+                            + biome.solidGroundHeight;*/
 
         byte voxelValue = 0;
 
         if (yPos == terrainHeight)
-            voxelValue = 2;
+            voxelValue = biome.surfaceBlock;
         else if (yPos < terrainHeight && yPos > terrainHeight - 4)
-            voxelValue = 3;
+            voxelValue = biome.subSurfaceBlock;
         else if (yPos > terrainHeight)
             return 0;
         else
@@ -310,7 +358,7 @@ public class World : MonoBehaviour {
 
         }
         
-        /* TREE PASS */
+        /* Flora PASS */
 
         if (yPos == terrainHeight) {
 
@@ -318,7 +366,7 @@ public class World : MonoBehaviour {
             {
                 if (Noise.GetStructurPerlin(new Vector2(pos.x, pos.z), 0, biome.treePlacementScale) > biome.treePlacementThreshold)
                 {
-                    Structure.MakeTree(pos, modifications, biome.minTreeHeight, biome.maxTreeHeight, biome.treeRaduius);
+                    Structure.MakeBasicFlora(pos, modifications, biome.minTreeHeight, biome.maxTreeHeight, biome.treeRaduius);
                 }
             }
 

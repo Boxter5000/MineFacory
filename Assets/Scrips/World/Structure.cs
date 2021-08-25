@@ -4,7 +4,18 @@ using UnityEngine;
 
 public static class Structure
 {
-    public static void MakeTree(Vector3 position, Queue<VoxelMod> queue, int minTrunkHeight, int maxTrunkHeight, float radius)
+    public static void MakeCactie(Vector3 position, Queue<VoxelMod> queue, int minTrunkHeight, int maxTrunkHeight, float radius)
+    {
+        int height = (int) (maxTrunkHeight * Noise.GetStructurPerlin(new Vector2(position.x, position.z), 12345f, 5f));
+        
+        if (height < minTrunkHeight)
+            height = minTrunkHeight;
+        
+        for (int i = 1; i < height; i++)
+            queue.Enqueue(new VoxelMod(new Vector3(position.x, position.y + i, position.z), 13));
+        
+    }
+    public static void MakeBasicFlora(Vector3 position, Queue<VoxelMod> queue, int minTrunkHeight, int maxTrunkHeight, float radius)
     {
         int height = (int) (maxTrunkHeight * Noise.GetStructurPerlin(new Vector2(position.x, position.z), 250f, 3f));
         int leaveState = 0;

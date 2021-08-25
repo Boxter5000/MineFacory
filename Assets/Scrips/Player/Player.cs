@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,7 @@ public class Player : MonoBehaviour {
 
     private Transform cam;
     private World world;
+    private Inventory inventory;
 
     public float walkSpeed = 3f;
     public float sprintSpeed = 6f;
@@ -40,11 +42,13 @@ public class Player : MonoBehaviour {
     [SerializeField] private float rotationSpeed = 10f;
     
     private float rotY = 0.0f;
+    private bool inventoryHasBeenOpend;
 
     private void Start() {
 
         cam = GameObject.Find("Main Camera").transform;
         world = GameObject.Find("World").GetComponent<World>();
+        inventory = GameObject.Find("Inventory").GetComponent<Inventory>();
 
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -101,7 +105,7 @@ public class Player : MonoBehaviour {
             velocity.z = 0;
         if ((velocity.x > 0 && right) || (velocity.x < 0 && left))
             velocity.x = 0;
-
+        
         if (velocity.y < 0)
             velocity.y = checkDownSpeed(velocity.y);
         else if (velocity.y > 0)
@@ -115,6 +119,11 @@ public class Player : MonoBehaviour {
         if (Input.GetButtonDown("Inventory") || (world.isInventoryOpen && Input.GetKeyDown(KeyCode.Escape)))
         {
             world.isInventoryOpen = !world.isInventoryOpen;
+            if (!inventoryHasBeenOpend)
+            {
+                //inventory.GenerateInventorySlots();
+                inventoryHasBeenOpend = true;
+            }
         }
         
         if (!world.isInventoryOpen)

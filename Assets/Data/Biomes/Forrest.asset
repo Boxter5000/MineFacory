@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01d1e1dd1fea737419c72b8013d0c71c, type: 3}
-  m_Name: Mountains
+  m_Name: Forrest
   m_EditorClassIdentifier: 
-  biomeName: Default
+  biomeName: Forrest
   solidGroundHeight: 10
-  terrainHeight: 100
-  terrainScale: 200
+  terrainHeight: 70
+  terrainScale: 50
   redistribution: 2
   octaves: 6
-  persistance: 0.4
-  lacunarity: 1.5
+  persistance: 0.3
+  lacunarity: 1.4
   offset: 0
   biomeScale: 0.1
   surfaceBlock: 2

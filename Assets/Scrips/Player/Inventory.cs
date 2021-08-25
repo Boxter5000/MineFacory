@@ -17,9 +17,9 @@ public class Inventory : MonoBehaviour
     public int inventorySizeX = 9;
     public int inventorySizeY = 5;
     public Vector3 offsetPercent;
-    
-    int resX = Screen.width;
-    int resY = Screen.height;
+
+    private int resX;
+    private int resY;
 
     private World world;
 
@@ -32,12 +32,15 @@ public class Inventory : MonoBehaviour
         world  = GameObject.Find("World").GetComponent<World>();
         GenerateInventorySlots();
     }
-    
 
-    private void Update()
+    private void Start()
     {
-        resX = Screen.width;
-        resY = Screen.height;
+
+    }
+
+    private void LateUpdate()
+    {
+
     }
 
     public void GenerateInventorySlots()
@@ -48,6 +51,9 @@ public class Inventory : MonoBehaviour
         byte itemIndex = (byte)(world.blocktypes.Length - 1);
         int stackSize = 64;
         
+        resX = Screen.width;
+        resY = Screen.height;
+
         for (int y = -yStart; y <= yStart; y++)
         {
             for (int x = -xStart; x <= xStart; x++)
