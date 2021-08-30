@@ -264,6 +264,8 @@ public class World : MonoBehaviour {
 
     }
 
+
+
     public byte GetVoxel (Vector3 pos) {
 
         int yPos = Mathf.FloorToInt(pos.y);
@@ -287,25 +289,26 @@ public class World : MonoBehaviour {
         float strongestWeight = 0f;
         int strongestBiomeIndex = 0;
 
+        BiomeAttributes biome;
 
-        
         for (int i = 0; i < biomes.Length; i++) {
 
-            float weight = Noise.GetStructurPerlin(new Vector2(pos.x, pos.z), biomes[i].offset, biomes[i].terrainScale);
+            float weight = Noise.GetStructurPerlin(new Vector2(pos.x, pos.z), biomes[i].offset, biomes[i].biomeScale);
 
             // Keep track of which weight is strongest.
             if (weight > strongestWeight) {
-
                 strongestWeight = weight;
                 strongestBiomeIndex = i;
 
             }
-
             // Get the height of the terrain (for the current biome) and multiply it by its weight.
-            float height = biomes[i].terrainHeight * Noise.GetStructurPerlin(new Vector2(pos.x, pos.z), 0, biomes[i].terrainScale) * weight;
+            float height = biomes[i].terrainHeight * Noise.Get2DPerlin(new Vector2(pos.x, pos.z), 0, 
+                biomes[i].terrainScale,biomes[i].octaves,biomes[i].persistance ,biomes[i].lacunarity , biomes[i].redistribution) * weight;
+            
+            
 
             // If the height value is greater 0 add it to the sum of heights.
-            if (height > 0) {
+            if (height > 0.0f) {
 
                 sumOfHeights += height;
                 count++;
@@ -315,23 +318,19 @@ public class World : MonoBehaviour {
         }
 
         // Set biome to the one with the strongest weight.
-        BiomeAttributes biome = biomes[strongestBiomeIndex];
+        biome = biomes[strongestBiomeIndex];
 
         // Get the average of the heights.
-        
-
-        
         sumOfHeights /= count;
 
+
+        //sumOfHeights /= count;
+
         int terrainHeight = Mathf.FloorToInt(sumOfHeights + solidGroundHeight);
-        
+
         
         /* BASIC TERRAIN PASS */
-
-        /*int terrainHeight = Mathf.FloorToInt(biome.terrainHeight *
-                                             Noise.Get2DPerlin(new Vector2(pos.x, pos.z), 0, 
-                                                 biome.terrainScale,biome.octaves,biome.persistance ,biome.lacunarity , biome.redistribution))
-                            + biome.solidGroundHeight;*/
+        
 
         byte voxelValue = 0;
 
@@ -414,9 +413,6 @@ public class BlockType {
     public int bottomFaceTexture;
     public int leftFaceTexture;
     public int rightFaceTexture;
-
-    [Header("ItemTextur")] 
-    public Sprite itemImage;
 
     // Back, Front, Top, Bottom, Left, Right
 

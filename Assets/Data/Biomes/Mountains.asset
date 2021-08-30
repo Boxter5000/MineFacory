@@ -13,16 +13,15 @@ MonoBehaviour:
   m_Name: Mountains
   m_EditorClassIdentifier: 
   biomeName: Default
-  solidGroundHeight: 10
-  terrainHeight: 100
-  terrainScale: 200
+  terrainHeight: 40
+  terrainScale: 100
   redistribution: 2
   octaves: 6
   persistance: 0.4
-  lacunarity: 1.5
+  lacunarity: 0.6
   offset: 0
   biomeScale: 0.1
-  surfaceBlock: 2
+  surfaceBlock: 1
   subSurfaceBlock: 3
   treeZoneScale: 1.3
   treeZoneThreshold: 0.6

@@ -6,8 +6,7 @@ using UnityEngine;
 public class BiomeAttributes : ScriptableObject {
 
     public string biomeName;
-
-    public int solidGroundHeight;
+    
     public int terrainHeight;
     public float terrainScale;
     public float redistribution;

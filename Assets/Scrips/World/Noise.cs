@@ -29,8 +29,8 @@ public static class Noise  {
             frequency *= lacunarity;
         }
         elevation = noiseHeight;
-        
-        return (Mathf.Pow(elevation, redistribution));
+
+        return Mathf.Pow(elevation, redistribution);
     }
     
     public static float GetStructurPerlin (Vector2 position, float offset, float scale) {

@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Scrips.Player;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Toolbar : MonoBehaviour
 {
-    /*private World world;
+    private Inventory inventory;
+    private World world;
     public Player player;
 
     public RectTransform highlight;
@@ -16,12 +18,12 @@ public class Toolbar : MonoBehaviour
 
     private void Start()
     {
+        inventory = FindObjectOfType<Inventory>();
         world = GameObject.Find("World").GetComponent<World>();
 
-        foreach (ItemSlot slot in itemSlots)
+        foreach (ItemSlot slot in inventory.toolbarSlots)
         {
-            slot.icon.sprite = world.blocktypes[slot.itemID].icon;
-            slot.icon.enabled = true;
+            slot.itemImg.sprite = world.blocktypes[inventory.toolbarSlots.Get]
             
         }
         player.selectedBlockIndex = itemSlots[slotIndex].itemID;
@@ -46,5 +48,5 @@ public class Toolbar : MonoBehaviour
             highlight.position = itemSlots[slotIndex].icon.transform.position;
             player.selectedBlockIndex = itemSlots[slotIndex].itemID;
         }
-    }*/
+    }
 }

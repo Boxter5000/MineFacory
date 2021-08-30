@@ -13,13 +13,12 @@ MonoBehaviour:
   m_Name: Forrest
   m_EditorClassIdentifier: 
   biomeName: Forrest
-  solidGroundHeight: 10
-  terrainHeight: 70
-  terrainScale: 50
+  terrainHeight: 30
+  terrainScale: 200
   redistribution: 2
   octaves: 6
   persistance: 0.3
-  lacunarity: 1.4
+  lacunarity: 0.5
   offset: 0
   biomeScale: 0.1
   surfaceBlock: 2
