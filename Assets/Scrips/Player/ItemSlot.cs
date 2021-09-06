@@ -4,45 +4,45 @@ namespace Scrips.Player
 {
     public class ItemSlot
     {
-        public byte itemID;
-        private int stackSize;
-        private bool canChangeItemID;                                                   ///////////
-        public Image itemImg;
-        //public Text sizeText;
+        private Item currentItem;
+        private bool canChangeItemID;
 
-        public ItemSlot(byte itemID, int stackSize, bool canChangeItemID)               ///////////
+        public ItemSlot(bool canChangeItemID)
         {
-            this.stackSize = stackSize;
-            this.itemID = itemID;
-            this.canChangeItemID = canChangeItemID;                                         ///////////
+            this.canChangeItemID = canChangeItemID;
         }
 
-        public byte GetItemID()                                                     ///////////
+        public byte GetItemID()
         {
-            return itemID;
+            return currentItem.ItemID;
         }
 
-        public int GetStackSize()                                               ///////////
+        public byte GetStackSize()
         {
-            return stackSize;
+            return currentItem.StackSize;
         }
 
-        public bool GetCanChange()                                               ///////////
+        public bool GetCanChange()
         {
             return canChangeItemID;
         }
 
-        public void SetItemID(byte newItemID)                                               ///////////
+        public void SetItem(Item newItem)
         {
-            itemID = newItemID;
+            currentItem = newItem;
         }
 
-        public void SetStackSize(int newStackSize)                                               ///////////
+        public void SetItemID(byte newItemID)
         {
-            stackSize = newStackSize;
+            currentItem.ItemID = newItemID;
         }
 
-        public void SetCanChange(bool newCanChange)                                               ///////////
+        public void SetStackSize(byte newStackSize)
+        {
+            currentItem.StackSize = newStackSize;
+        }
+
+        public void SetCanChange(bool newCanChange)
         {
             canChangeItemID = newCanChange;
         }

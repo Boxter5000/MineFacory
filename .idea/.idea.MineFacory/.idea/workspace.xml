@@ -3,10 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="952a0030-68ad-4a08-914d-9e42b50914b1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MineFacory/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MineFacory/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scrips/World/BiomeAttributes.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scrips/World/BiomeAttributes.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scrips/World/Noise.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scrips/World/Noise.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scrips/Player/Inventory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scrips/Player/Inventory.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scrips/Player/ItemSlot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scrips/Player/ItemSlot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scrips/Player/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scrips/Player/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scrips/Player/Toolbar.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scrips/Player/Toolbar.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scrips/World/World.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scrips/World/World.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,8 +29,8 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/Scrips/Player/CameraController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scrips/Player/Player.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scrips/Player/Item.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scrips/World/BiomeAttributes.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scrips/Toolbar.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -46,7 +48,6 @@
       <option value="$PROJECT_DIR$/Assets/Scrips/World/NoiseMap.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/Chunk/VertexTable.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/World/BiomeAttrebute.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scrips/Player/Player.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/Toolbar.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/Chunk/Chunk.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/Chunk/VoxelData.cs" />
@@ -54,6 +55,11 @@
       <option value="$PROJECT_DIR$/Assets/Scrips/World/Noise.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/World/BiomeAttributes.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/World/World.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/Player/Toolbar.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/Player/ItemSlot.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/Player/Inventory.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/Player/Item.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/Player/Player.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1vzbxtS5iFd4wW2ryAzVwrfiOyt" />
@@ -71,6 +77,7 @@
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
@@ -109,6 +116,7 @@
       <workItem from="1628190164194" duration="657000" />
       <workItem from="1628535033413" duration="12764000" />
       <workItem from="1629121002000" duration="305000" />
+      <workItem from="1630930222717" duration="9816000" />
     </task>
     <servers />
   </component>
@@ -117,6 +125,17 @@
   </component>
   <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>

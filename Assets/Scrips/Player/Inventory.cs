@@ -5,36 +5,25 @@ using Random = UnityEngine.Random;
 
 public class Inventory : MonoBehaviour
 {
-    private ItemSlot[,] itemSlots;
+    private ItemSlot[,] currentInventorySlots;
     private GameObject[,] itemButtons;
     private ItemSlot cursorSlot;
     private GameObject cursorItem;
+    public GameObject itemButtonPrefab;
     public GameObject cursorItemPrefab;
-    public GameObject itemButton;
-
-    public int inventorySizeX = 9;
-    public int inventorySizeY = 5;
 
     [SerializeField] private GameObject verticalParentPrefab;
     [SerializeField] private GameObject horiontalParentPrefab;
 
     [SerializeField] private int itemBoxSize = 30;
     [SerializeField] private int toolbarDividerSize = 15;
-    
-    [HideInInspector]public ItemSlot[] toolbarSlots;
-    private GameObject[] toolbarItems;
 
     private World world;
     private Canvas myCanvas;
     private void Awake()
     {
-        itemSlots = new ItemSlot[inventorySizeX, inventorySizeY];
-        itemButtons = new GameObject[inventorySizeX, inventorySizeY];
-        toolbarSlots = new ItemSlot[inventorySizeX];
-        toolbarItems = new GameObject[inventorySizeX];
         world  = GameObject.Find("World").GetComponent<World>();
         myCanvas = transform.parent.GetComponent<Canvas>();
-        GenerateInventorySlots();
     }
     
 
@@ -78,58 +67,107 @@ public class Inventory : MonoBehaviour
         cursorItem.transform.GetChild(0).GetComponent<Image>().sprite = world.blocktypes[0].icon;
         cursorItem.transform.GetChild(1).GetComponent<Text>().text = " ";
     }*/
-    public void GenerateInventorySlots()
+    public void SetItemSlots(Item[,] playerInventory, Item[,] externalInventory)
     {
-        byte itemIndex = (byte)(world.blocktypes.Length - 1);
-        int stackSize = 64;
+        int playerInventoryHorizontalLength = playerInventory.GetLength(1);
+        int playerInventoryVerticalLength = playerInventory.GetLength(0);
+        int externalInventoryHorizontalLength = externalInventory?.GetLength(1) ?? 0;
+        int externalInventoryVerticalLength = externalInventory?.GetLength(0) ?? 0;
+        int horizontalSlotAmount = (playerInventoryHorizontalLength > externalInventoryHorizontalLength)
+            ? playerInventoryHorizontalLength
+            : externalInventoryHorizontalLength;
+        int verticalSlotAmount = playerInventoryVerticalLength + externalInventoryVerticalLength;
+        int dividerSizes = toolbarDividerSize;
 
+        currentInventorySlots = new ItemSlot[verticalSlotAmount, horizontalSlotAmount];
+        itemButtons = new GameObject[verticalSlotAmount, horizontalSlotAmount];
+        
         GameObject verticalParent = Instantiate(verticalParentPrefab, transform);
-        verticalParent.GetComponent<RectTransform>().sizeDelta = new Vector2(itemBoxSize * inventorySizeX, itemBoxSize * inventorySizeY + itemBoxSize + toolbarDividerSize);
-        verticalParent.GetComponent<RectTransform>().position += new Vector3(0, -10, 0);
 
-        for (int y = 0; y < inventorySizeY; y++)
+        if(externalInventory != null)
+        {
+            //ExternalInventory
+            for (int x = 0; x < externalInventoryVerticalLength; x++)
+            {
+                GameObject currentHorizontalParent = Instantiate(horiontalParentPrefab, verticalParent.transform);
+                currentHorizontalParent.GetComponent<RectTransform>().sizeDelta = new Vector2(itemBoxSize * horizontalSlotAmount, itemBoxSize);
+                for (int z = 0; z < externalInventoryHorizontalLength; z++)
+                {
+                    int rowIndex = x + playerInventoryVerticalLength;
+                    Item currentItem = externalInventory[x,z];
+                    currentInventorySlots[rowIndex, z] = new ItemSlot(true);
+                    currentInventorySlots[rowIndex,z].SetItem(currentItem);
+                
+                    itemButtons[rowIndex, z] = Instantiate(itemButtonPrefab,currentHorizontalParent.transform);
+                
+                    SetItemInSlot(rowIndex, z, currentItem.ItemID, currentItem.StackSize);
+                
+                }
+            }
+
+            //Divider Between ExternalInventory and Inventory
+            GameObject ExternalInventoryDivider = Instantiate(horiontalParentPrefab, verticalParent.transform);
+            ExternalInventoryDivider.GetComponent<RectTransform>().sizeDelta = new Vector2(itemBoxSize * horizontalSlotAmount, toolbarDividerSize);
+            dividerSizes *= 2;
+        }
+        else
+        {
+            
+        }
+        
+        //Inventory
+        for (int x = 1; x < playerInventoryVerticalLength; x++)
         {
             GameObject currentHorizontalParent = Instantiate(horiontalParentPrefab, verticalParent.transform);
-            currentHorizontalParent.GetComponent<RectTransform>().sizeDelta = new Vector2(itemBoxSize * inventorySizeX, itemBoxSize);
-            for (int x = 0; x < inventorySizeX; x++)
+            currentHorizontalParent.GetComponent<RectTransform>().sizeDelta = new Vector2(itemBoxSize * horizontalSlotAmount, itemBoxSize);
+            for (int z = 0; z < playerInventoryHorizontalLength; z++)
             {
-                if (itemIndex > 0)
-                    itemIndex--;
-
-
+                Item currentItem = playerInventory[x,z];
                 
-                itemSlots[x, y] = new ItemSlot(itemIndex, stackSize, true);
+                currentInventorySlots[x, z] = new ItemSlot(false);
+                currentInventorySlots[x,z].SetItem(currentItem);
                 
-                itemButtons[x, y] = Instantiate(itemButton,currentHorizontalParent.transform);
+                itemButtons[x, z] = Instantiate(itemButtonPrefab,currentHorizontalParent.transform);
                 
-                SetItemInSlot(x, y, itemIndex, stackSize);
+                SetItemInSlot(x, z, currentItem.ItemID, currentItem.StackSize);
                 
             }
         }
 
+        //Divider Between Inventory and Toolbarclone
         GameObject toolbarDivider = Instantiate(horiontalParentPrefab, verticalParent.transform);
-        toolbarDivider.GetComponent<RectTransform>().sizeDelta = new Vector2(itemBoxSize * inventorySizeX, toolbarDividerSize);
+        toolbarDivider.GetComponent<RectTransform>().sizeDelta = new Vector2(itemBoxSize * horizontalSlotAmount, toolbarDividerSize);
         
+        
+        //ToolbarClone-Row
         GameObject toolbarClone = Instantiate(horiontalParentPrefab, verticalParent.transform);
-        toolbarClone.GetComponent<RectTransform>().sizeDelta = new Vector2(itemBoxSize * inventorySizeX, itemBoxSize);
-        for (int x = 0; x < inventorySizeX; x++)
+        toolbarClone.GetComponent<RectTransform>().sizeDelta = new Vector2(itemBoxSize * horizontalSlotAmount, itemBoxSize);
+        for (int z = 0; z < playerInventoryHorizontalLength; z++)
         {
+            Item currentItem = playerInventory[0,z];
                 
-            toolbarSlots[x] = new ItemSlot(0, 0, true);
+            currentInventorySlots[0,z] = new ItemSlot(true);
+            currentInventorySlots[0,z].SetItem(currentItem);
                 
-            toolbarItems[x] = Instantiate(itemButton,toolbarClone.transform);
+            itemButtons[0,z] = Instantiate(itemButtonPrefab,toolbarClone.transform);
                 
-            UpdateItem(toolbarItems[x],0,0);
+            SetItemInSlot(0, z, currentItem.ItemID, currentItem.StackSize);
         }
         
+        //Positioning and Scaling of InventoryBox
+        verticalParent.GetComponent<RectTransform>().sizeDelta = new Vector2(itemBoxSize * horizontalSlotAmount, itemBoxSize * verticalSlotAmount + dividerSizes);
+        verticalParent.GetComponent<RectTransform>().position += new Vector3(0, -10, 0);
+        
 
-        cursorSlot = new ItemSlot(0, 0, true);
+        //CursorSlot
+        cursorSlot = new ItemSlot(true);
+        cursorSlot.SetItem(new Item(0,0));
         cursorItem = Instantiate(cursorItemPrefab, transform);
         cursorItem.transform.GetChild(0).GetComponent<Image>().sprite = world.blocktypes[0].icon;
         cursorItem.transform.GetChild(1).GetComponent<Text>().text = " ";
     }
 
-    public void SetItemInSlot(int posX, int posY , byte id, int stacksize)
+    private void SetItemInSlot(int posX, int posY , byte id, int stacksize)
     {
         GameObject newButton = itemButtons[posX, posY];
         UpdateItem(newButton, id, stacksize);
@@ -139,12 +177,12 @@ public class Inventory : MonoBehaviour
 
     public void SwitchItems(int posX, int posY)
     {
-        ItemSlot clickedButton = itemSlots[posX, posY];
+        ItemSlot clickedButton = currentInventorySlots[posX, posY];
         byte clickedButtonItem = clickedButton.GetItemID();
-        int clickedButtonStackSize = clickedButton.GetStackSize();
+        byte clickedButtonStackSize = clickedButton.GetStackSize();
         
         byte cursorItemID = cursorSlot.GetItemID();
-        int cursorStackSize = cursorSlot.GetStackSize();
+        byte cursorStackSize = cursorSlot.GetStackSize();
 
         if (clickedButton.GetCanChange())
         {

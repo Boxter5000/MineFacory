@@ -20,13 +20,7 @@ public class Toolbar : MonoBehaviour
     {
         inventory = FindObjectOfType<Inventory>();
         world = GameObject.Find("World").GetComponent<World>();
-
-        foreach (ItemSlot slot in inventory.toolbarSlots)
-        {
-            
-            
-        }
-//        player.selectedBlockIndex = itemSlots[slotIndex].itemID;
+        //player.SelectedBlockIndex = itemSlots[slotIndex].GetItemID();
     }
 
     private void Update()
@@ -44,9 +38,11 @@ public class Toolbar : MonoBehaviour
                 slotIndex = 0;
             if (slotIndex < 0)
                 slotIndex = itemSlots.Length - 1;
-
-            //highlight.position = itemSlots[slotIndex].icon.transform.position;
-            player.selectedBlockIndex = itemSlots[slotIndex].itemID;
         }
+    }
+
+    public void ChangeItem(int index, byte newItemID)
+    {
+
     }
 }

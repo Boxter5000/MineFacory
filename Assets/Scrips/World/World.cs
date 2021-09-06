@@ -31,7 +31,7 @@ public class World : MonoBehaviour {
 
     public bool isInventoryOpen;
     public GameObject debugScreen;
-    public GameObject inventoryScreen;
+    public Inventory inventoryScreen;
 
     private void Start() {
 
@@ -66,17 +66,6 @@ public class World : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.F3))
             debugScreen.SetActive(!debugScreen.activeSelf);
-
-        if (isInventoryOpen)
-        {
-            inventoryScreen.SetActive(true);
-        }
-        else
-        {
-            inventoryScreen.SetActive(false);
-        }
-
-
     }
 
     void GenerateWorld () {
@@ -401,6 +390,16 @@ public class World : MonoBehaviour {
         else
             return false;
 
+    }
+
+    public void OpenInventory(Item[,] playerInventory, Item[,] externalInventory)
+    {
+        inventoryScreen.SetItemSlots(playerInventory, externalInventory);
+    }
+
+    public void OpenCloseInventoryUI()
+    {
+        inventoryScreen.gameObject.SetActive(isInventoryOpen);
     }
 
 }

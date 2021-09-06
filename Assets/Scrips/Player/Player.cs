@@ -11,7 +11,7 @@ public class Player : MonoBehaviour {
 
     private Transform cam;
     private World world;
-    private Inventory inventory;
+    private Inventory inventoryUI;
 
     public float walkSpeed = 3f;
     public float sprintSpeed = 6f;
@@ -35,22 +35,56 @@ public class Player : MonoBehaviour {
     public float checkIncrement = 0.1f;
     public float reach = 8f;
     
-    public byte selectedBlockIndex = 1;
     
     private const float MaxTurnY = 89.9f;
     private const float MinTurnY = -89.9f; 
     [SerializeField] private float rotationSpeed = 10f;
     
-    private bool inventoryHasBeenOpend;
+    private float rotY = 0.0f;
+    
+    //Inventory
+    private bool inventoryHasBeenOpened;
+    public byte SelectedBlockIndex
+    {
+        set => selectedBlockIndex = value;
+        get => selectedBlockIndex;
+    }
+
+    private byte selectedBlockIndex;
+
+    private Item[,] inventory = new Item[4,9];
 
     private void Start() {
 
         cam = GameObject.Find("Main Camera").transform;
         world = GameObject.Find("World").GetComponent<World>();
-        inventory = GameObject.Find("Inventory").GetComponent<Inventory>();
+        inventoryUI = GameObject.Find("Inventory").GetComponent<Inventory>();
+        
+        byte itemIndex = 1;
+
+        for (int x = 1; x < inventory.GetLength(0); x++)
+        {
+            for (int z = 0; z < inventory.GetLength(1); z++)
+            {
+                if (itemIndex < world.blocktypes.Length)
+                {
+                    inventory[x, z] = new Item(itemIndex, 1);
+                    itemIndex++;
+                }
+                else
+                {
+                    
+                    inventory[x, z] = new Item(0, 0);
+                }
+                
+            }
+        }
+        for (int z = 0; z < inventory.GetLength(1); z++)
+        {  
+                inventory[0, z] = new Item(0, 0);
+        }
 
         Cursor.lockState = CursorLockMode.Locked;
-
     }
 
     private void FixedUpdate() {
@@ -113,16 +147,18 @@ public class Player : MonoBehaviour {
 
     }
 
-    private void GetPlayerInputs () {
+    private void GetPlayerInputs ()
+    {
 
-        if (Input.GetButtonDown("Inventory") || (world.isInventoryOpen && Input.GetKeyDown(KeyCode.Escape)))
+        bool isInventoryOpen = world.isInventoryOpen;
+        if (Input.GetButtonDown("Inventory") || (isInventoryOpen && Input.GetKeyDown(KeyCode.Escape)))
         {
-            world.isInventoryOpen = !world.isInventoryOpen;
-            if (!inventoryHasBeenOpend)
+            if (!isInventoryOpen)
             {
-                //inventory.GenerateInventorySlots();
-                inventoryHasBeenOpend = true;
+                OpenInventory(null);
             }
+            world.isInventoryOpen = !isInventoryOpen;
+            world.OpenCloseInventoryUI();
         }
         
         if (!world.isInventoryOpen)
@@ -150,7 +186,7 @@ public class Player : MonoBehaviour {
 
                 // Place block.
                 if (Input.GetMouseButtonDown(1))
-                    world.GetChunkFromVector3(placeBlock.position).EditVoxel(placeBlock.position, selectedBlockIndex);
+                    world.GetChunkFromVector3(placeBlock.position).EditVoxel(placeBlock.position, SelectedBlockIndex);
 
             
             }
@@ -194,6 +230,11 @@ public class Player : MonoBehaviour {
         highlightBlock.gameObject.SetActive(false);
         placeBlock.gameObject.SetActive(false);
 
+    }
+
+    public void OpenInventory(Item[,] externalInventory)
+    {
+        world.OpenInventory(inventory, externalInventory);
     }
 
     private float checkDownSpeed (float downSpeed) {
