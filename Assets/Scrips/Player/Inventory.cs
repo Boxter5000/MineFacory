@@ -31,7 +31,7 @@ public class Inventory : MonoBehaviour
     {
         Vector2 pos;
         RectTransformUtility.ScreenPointToLocalPointInRectangle(myCanvas.transform as RectTransform, Input.mousePosition, myCanvas.worldCamera, out pos);                   /////////                                                              ///////////
-        cursorItem.transform.position = myCanvas.transform.TransformPoint(pos);
+        //cursorItem.transform.position = myCanvas.transform.TransformPoint(pos);
     }
 
     /*public void GenerateInventorySlots()

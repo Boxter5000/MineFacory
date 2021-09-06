@@ -17,23 +17,22 @@ public class Chunk {
 	private Material[] _materials = new Material[2];
 	List<Vector2> uvs = new List<Vector2> ();
 
+	public Vector3 position;	
+
 	public byte[,,] voxelMap = new byte[VoxelData.ChunkWidth, VoxelData.ChunkHeight, VoxelData.ChunkWidth];
 
 	public Queue<VoxelMod> modifications = new Queue<VoxelMod>();
 
+
     World world;
 
     private bool _isActive;
-    public bool isVoxelMapPopulated = false;
+    private bool isVoxelMapPopulated = false;
 
-    public Chunk (ChunkCoord _coord, World _world, bool generateOnLoad) {
+    public Chunk (ChunkCoord _coord, World _world) {
 
         coord = _coord;
         world = _world;
-        isActive = true;
-
-        if (generateOnLoad)
-            Init();
 
     }
 
@@ -51,11 +50,9 @@ public class Chunk {
         chunkObject.transform.SetParent(world.transform);
         chunkObject.transform.position = new Vector3(coord.x * VoxelData.ChunkWidth, 0f, coord.z * VoxelData.ChunkWidth);
         chunkObject.name = "Chunk " + coord.x + ", " + coord.z;
-
-
+        position = chunkObject.transform.position;
+        
         PopulateVoxelMap();
-        UpdateChunk();
-
     }
 
 	void PopulateVoxelMap () {
@@ -69,35 +66,42 @@ public class Chunk {
 				}
 			}
 		}
-
-        isVoxelMapPopulated = true;
-
+		isVoxelMapPopulated = true;
+		lock (world.ChunkUpdateThreadLock)
+		{
+			world.chunksToUpdate.Add(this);
+		}
+//21:08
 	}
 
 	public void UpdateChunk () {
+		
 
-		while (modifications.Count > 0)
-		{
+		while (modifications.Count > 0) {
+
 			VoxelMod v = modifications.Dequeue();
 			Vector3 pos = v.position -= position;
-			voxelMap[(int) pos.x, (int) pos.y, (int) pos.z] = v.id;
+			voxelMap[(int)pos.x, (int)pos.y, (int)pos.z] = v.id;
+
 		}
 
-		
-        ClearMeshData();
+		ClearMeshData();
 
 		for (int y = 0; y < VoxelData.ChunkHeight; y++) {
 			for (int x = 0; x < VoxelData.ChunkWidth; x++) {
 				for (int z = 0; z < VoxelData.ChunkWidth; z++) {
 
-                    if (world.blocktypes[voxelMap[x,y,z]].isSolid)
-					    UpdateMeshData (new Vector3(x, y, z));
+					if (world.blocktypes[voxelMap[x,y,z]].isSolid)
+						UpdateMeshData (new Vector3(x, y, z));
 
 				}
 			}
 		}
 
-        CreateMesh();
+		lock (world.chunksToDraw)
+			world.chunksToDraw.Enqueue(this);
+		
+
 
 	}
 
@@ -124,10 +128,15 @@ public class Chunk {
 
     }
 
-    public Vector3 position {
-
-        get { return chunkObject.transform.position; }
-
+    public bool isEditeble
+    {
+	    get
+	    {
+		    if (!isVoxelMapPopulated)
+			    return true;
+		    else
+			    return false;
+	    }
     }
 
     bool IsVoxelInChunk (int x, int y, int z) {
@@ -145,14 +154,16 @@ public class Chunk {
         int yCheck = Mathf.FloorToInt(pos.y);
         int zCheck = Mathf.FloorToInt(pos.z);
 
-        xCheck -= Mathf.FloorToInt(chunkObject.transform.position.x);
-        zCheck -= Mathf.FloorToInt(chunkObject.transform.position.z);
+        xCheck -= Mathf.FloorToInt(position.x);
+        zCheck -= Mathf.FloorToInt(position.z);
 
         voxelMap[xCheck, yCheck, zCheck] = newID;
 
-        UpdateSurroundingVoxels(xCheck, yCheck, zCheck);
-
-        UpdateChunk();
+        lock (world.ChunkUpdateThreadLock)
+        {
+	        world.chunksToUpdate.Insert(0, this);
+	        UpdateSurroundingVoxels(xCheck, yCheck, zCheck);
+        }
 
     }
 
@@ -166,7 +177,7 @@ public class Chunk {
 
             if (!IsVoxelInChunk((int)currentVoxel.x, (int)currentVoxel.y, (int)currentVoxel.z)) {
 
-                world.GetChunkFromVector3(currentVoxel + position).UpdateChunk();
+                world.chunksToUpdate.Insert(0, world.GetChunkFromVector3(currentVoxel + position));
 
             }
 
@@ -194,8 +205,8 @@ public class Chunk {
         int yCheck = Mathf.FloorToInt(pos.y);
         int zCheck = Mathf.FloorToInt(pos.z);
 
-        xCheck -= Mathf.FloorToInt(chunkObject.transform.position.x);
-        zCheck -= Mathf.FloorToInt(chunkObject.transform.position.z);
+        xCheck -= Mathf.FloorToInt(position.x);
+        zCheck -= Mathf.FloorToInt(position.z);
 
         return voxelMap[xCheck, yCheck, zCheck];
 
@@ -252,7 +263,7 @@ public class Chunk {
 		uvs.Add (UVCords + TextureMapping.VoxelTextureUV[3]);
 	}
 
-	void CreateMesh () {
+	public void CreateMesh () {
 
 		Mesh mesh = new Mesh ();
 		mesh.vertices = vertices.ToArray ();

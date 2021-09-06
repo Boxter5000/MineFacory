@@ -15,8 +15,10 @@ public static class Structure
             queue.Enqueue(new VoxelMod(new Vector3(position.x, position.y + i, position.z), 13));
         
     }
-    public static void MakeBasicFlora(Vector3 position, Queue<VoxelMod> queue, int minTrunkHeight, int maxTrunkHeight, float radius)
+    public static Queue<VoxelMod> MakeBasicFlora(Vector3 position, int minTrunkHeight, int maxTrunkHeight, float radius)
     {
+        Queue<VoxelMod> queue = new Queue<VoxelMod>();
+        
         int height = (int) (maxTrunkHeight * Noise.GetStructurPerlin(new Vector2(position.x, position.z), 250f, 3f));
         int leaveState = 0;
         
@@ -56,6 +58,7 @@ public static class Structure
         for (int i = 1; i < height; i++)
             queue.Enqueue(new VoxelMod(new Vector3(position.x, position.y + i, position.z), 8));
 
-        
+        return queue;
+
     }
 }
