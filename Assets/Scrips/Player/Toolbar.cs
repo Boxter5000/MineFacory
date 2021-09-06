@@ -23,10 +23,10 @@ public class Toolbar : MonoBehaviour
 
         foreach (ItemSlot slot in inventory.toolbarSlots)
         {
-            slot.itemImg.sprite = world.blocktypes[inventory.toolbarSlots.Get]
+            
             
         }
-        player.selectedBlockIndex = itemSlots[slotIndex].itemID;
+//        player.selectedBlockIndex = itemSlots[slotIndex].itemID;
     }
 
     private void Update()
@@ -45,7 +45,7 @@ public class Toolbar : MonoBehaviour
             if (slotIndex < 0)
                 slotIndex = itemSlots.Length - 1;
 
-            highlight.position = itemSlots[slotIndex].icon.transform.position;
+            //highlight.position = itemSlots[slotIndex].icon.transform.position;
             player.selectedBlockIndex = itemSlots[slotIndex].itemID;
         }
     }

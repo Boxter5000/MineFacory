@@ -41,7 +41,6 @@ public class Player : MonoBehaviour {
     private const float MinTurnY = -89.9f; 
     [SerializeField] private float rotationSpeed = 10f;
     
-    private float rotY = 0.0f;
     private bool inventoryHasBeenOpend;
 
     private void Start() {

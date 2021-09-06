@@ -283,7 +283,7 @@ public class World : MonoBehaviour {
         
         /* biome Selekt PASS */
 
-        int solidGroundHeight = 42;
+        int solidGroundHeight = 60;
         float sumOfHeights = 0f;
         int count = 0;
         float strongestWeight = 0f;
@@ -293,14 +293,14 @@ public class World : MonoBehaviour {
 
         for (int i = 0; i < biomes.Length; i++) {
 
-            float weight = Noise.GetStructurPerlin(new Vector2(pos.x, pos.z), biomes[i].offset, biomes[i].biomeScale);
+            float weight = Noise.GetStructurPerlin(new Vector2(pos.x, pos.z), biomes[i].offset, .07f);
 
             // Keep track of which weight is strongest.
-            if (weight > strongestWeight) {
+            if (weight >= strongestWeight) {
                 strongestWeight = weight;
                 strongestBiomeIndex = i;
 
-            }
+            }   
             // Get the height of the terrain (for the current biome) and multiply it by its weight.
             float height = biomes[i].terrainHeight * Noise.Get2DPerlin(new Vector2(pos.x, pos.z), 0, 
                 biomes[i].terrainScale,biomes[i].octaves,biomes[i].persistance ,biomes[i].lacunarity , biomes[i].redistribution) * weight;
@@ -331,6 +331,7 @@ public class World : MonoBehaviour {
         
         /* BASIC TERRAIN PASS */
         
+        
 
         byte voxelValue = 0;
 
@@ -339,9 +340,16 @@ public class World : MonoBehaviour {
         else if (yPos < terrainHeight && yPos > terrainHeight - 4)
             voxelValue = biome.subSurfaceBlock;
         else if (yPos > terrainHeight)
-            return 0;
+            voxelValue = 0;
         else
             voxelValue = 1;
+        
+        /* Cave Pass */
+
+        if (Noise.Get3DPerlin(pos, 1234, .1f, .5f))
+        {
+            voxelValue = 0;
+        }
 
         /* SECOND PASS */
 

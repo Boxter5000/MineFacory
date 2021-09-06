@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BlockPlacement : MonoBehaviour
 {
-    public Transform camera;
+    public new Transform camera;
     private float buildDistance;
 
     private Vector3 GetVewdirection()
