@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Dessert
   m_EditorClassIdentifier: 
   biomeName: Dessert
-  terrainHeight: 20
+  terrainHeight: 5
   terrainScale: 300
   redistribution: 2
   octaves: 6
   persistance: 0.2
   lacunarity: 0.3
-  offset: 0
+  offset: 1234
   biomeScale: 0.1
   surfaceBlock: 7
   subSurfaceBlock: 7

@@ -1050,7 +1050,6 @@ MonoBehaviour:
   jumpForce: 7
   gravity: -20
   playerWidth: 0.4
-  boundsTolerance: 0.1
   playerHeight: 1.8
   highlightBlock: {fileID: 142815070}
   placeBlock: {fileID: 369236668}
@@ -1867,7 +1866,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec86e098b7a00fb43bb34fe3bce710b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 2.5
 --- !u!1 &1124228221
 GameObject:
   m_ObjectHideFlags: 0
@@ -1898,10 +1896,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seed: 1234
-  player: {fileID: 558983539}
-  spawnPosition: {x: 0, y: 0, z: 0}
-  material: {fileID: 2100000, guid: 21143a92cd42ffa4fbfbeffb0c062ba7, type: 2}
-  transparentMaterial: {fileID: 2100000, guid: 41096ac7c5db1c242b4cf49337838807, type: 2}
+  biomes:
+  - {fileID: 11400000, guid: ff226bb7d6791ff4b9e57b3559f87160, type: 2}
+  - {fileID: 11400000, guid: e764bc986be6a5745865f60be94fb682, type: 2}
+  - {fileID: 11400000, guid: 1f776695948ac69428d37e2126866856, type: 2}
   blocktypes:
   - blockName: Air
     isSolid: 0
@@ -2033,10 +2031,11 @@ MonoBehaviour:
     bottomFaceTexture: 71
     leftFaceTexture: 69
     rightFaceTexture: 69
-  biomes:
-  - {fileID: 11400000, guid: ff226bb7d6791ff4b9e57b3559f87160, type: 2}
-  - {fileID: 11400000, guid: e764bc986be6a5745865f60be94fb682, type: 2}
-  - {fileID: 11400000, guid: 1f776695948ac69428d37e2126866856, type: 2}
+  material: {fileID: 2100000, guid: 21143a92cd42ffa4fbfbeffb0c062ba7, type: 2}
+  transparentMaterial: {fileID: 2100000, guid: 41096ac7c5db1c242b4cf49337838807, type: 2}
+  enableThreading: 0
+  player: {fileID: 558983539}
+  spawnPosition: {x: 0, y: 0, z: 0}
   isInventoryOpen: 0
   debugScreen: {fileID: 145211098}
   inventoryScreen: {fileID: 758429779}

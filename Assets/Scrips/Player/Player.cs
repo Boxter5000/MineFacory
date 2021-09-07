@@ -12,7 +12,6 @@ public class Player : MonoBehaviour {
 
     private Transform cam;
     private World world;
-    private Inventory inventoryUI;
 
     public float walkSpeed = 3f;
     public float sprintSpeed = 6f;
@@ -20,7 +19,6 @@ public class Player : MonoBehaviour {
     public float gravity = -9.8f;
 
     public float playerWidth = 0.15f;
-    public float boundsTolerance = 0.1f;
     public float playerHeight = 1.8f;
 
     private float horizontal;
@@ -59,8 +57,7 @@ public class Player : MonoBehaviour {
 
         cam = GameObject.Find("Main Camera").transform;
         world = GameObject.Find("World").GetComponent<World>();
-        inventoryUI = GameObject.Find("Inventory").GetComponent<Inventory>();
-        
+
         byte itemIndex = 1;
 
         for (int x = 1; x < inventory.GetLength(0); x++)

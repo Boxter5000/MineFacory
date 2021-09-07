@@ -21,7 +21,7 @@ public class Toolbar : MonoBehaviour
     {
         inventory = FindObjectOfType<Inventory>();
         world = GameObject.Find("World").GetComponent<World>();
-        //player.SelectedBlockIndex = itemSlots[slotIndex].GetItemID();
+        player.SelectedBlockIndex = itemSlots[slotIndex].GetItemID();
     }
 
     private void Update()
