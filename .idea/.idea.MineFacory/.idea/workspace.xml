@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="952a0030-68ad-4a08-914d-9e42b50914b1" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.MineFacory/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MineFacory/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scrips/Player/Inventory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scrips/Player/Inventory.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scrips/Player/ItemSlot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scrips/Player/ItemSlot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scrips/Player/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scrips/Player/Player.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scrips/Player/Toolbar.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scrips/Player/Toolbar.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scrips/World/World.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scrips/World/World.cs" afterDir="false" />
-    </list>
+    <list default="true" id="952a0030-68ad-4a08-914d-9e42b50914b1" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -27,9 +19,7 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Assets/Scrips/Player/CameraController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scrips/Player/Player.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scrips/Player/Item.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scrips/World/BiomeAttributes.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
@@ -49,17 +39,17 @@
       <option value="$PROJECT_DIR$/Assets/Scrips/Chunk/VertexTable.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/World/BiomeAttrebute.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/Toolbar.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scrips/Chunk/Chunk.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/Chunk/VoxelData.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/Player/CameraController.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/World/Noise.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/World/BiomeAttributes.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scrips/World/World.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/Player/Toolbar.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/Player/ItemSlot.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/Player/Inventory.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/Player/Item.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/Chunk/Chunk.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/Player/Player.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/World/World.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1vzbxtS5iFd4wW2ryAzVwrfiOyt" />
@@ -117,6 +107,7 @@
       <workItem from="1628535033413" duration="12764000" />
       <workItem from="1629121002000" duration="305000" />
       <workItem from="1630930222717" duration="9816000" />
+      <workItem from="1631003222488" duration="4281000" />
     </task>
     <servers />
   </component>
@@ -135,6 +126,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />

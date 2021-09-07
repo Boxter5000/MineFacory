@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Scrips.World;
 using UnityEngine;
 
 public static class Structure
