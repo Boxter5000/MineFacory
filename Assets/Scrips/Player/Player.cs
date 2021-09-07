@@ -42,16 +42,11 @@ public class Player : MonoBehaviour {
     private float rotY = 0.0f;
     
     //Inventory
-    private bool inventoryHasBeenOpened;
-    public byte SelectedBlockIndex
-    {
-        set => selectedBlockIndex = value;
-        get => selectedBlockIndex;
-    }
-
-    private byte selectedBlockIndex;
+    public byte SelectedBlockIndex;
 
     private Item[,] inventory = new Item[4,9];
+
+    [SerializeField] private Toolbar toolbarReference;
 
     private void Start() {
 
@@ -71,16 +66,20 @@ public class Player : MonoBehaviour {
                 }
                 else
                 {
-                    
                     inventory[x, z] = new Item(0, 0);
                 }
                 
             }
         }
+
+        Item[] toolbarItems = new Item[inventory.GetLength(1)];
         for (int z = 0; z < inventory.GetLength(1); z++)
         {  
-                inventory[0, z] = new Item(0, 0);
+            toolbarItems[z] = new Item(0, 0);
+            inventory[0, z] = toolbarItems[z];
         }
+
+        toolbarReference.SetToolbar(toolbarItems);
 
         Cursor.lockState = CursorLockMode.Locked;
     }

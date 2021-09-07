@@ -12,6 +12,11 @@ namespace Scrips.Player
             this.canChangeItemID = canChangeItemID;
         }
 
+        public Item GetItem()
+        {
+            return currentItem;
+        }
+
         public byte GetItemID()
         {
             return currentItem.ItemID;

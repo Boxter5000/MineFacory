@@ -1,28 +1,17 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class Item
 {
     public const byte MaxStackSize = 64;
-    public byte ItemID
-    {
-        set => itemID = value;
-        get => itemID;
-    }
-
-    private byte itemID;
+    public byte ItemID { set; get; }
 
     public byte StackSize
     {
-        set => stackSize = value > 64 ? (byte) 64 : value;
-        get => stackSize;
+        set => _stackSize = value > MaxStackSize ? MaxStackSize : value;
+        get => _stackSize;
     }
-    private byte stackSize;
+    private byte _stackSize;
     public Item(byte newItemID, byte newStackSize)
     {
-        itemID = newItemID;
-        stackSize = newStackSize;
+        ItemID = newItemID;
+        _stackSize = newStackSize;
     }
 }
