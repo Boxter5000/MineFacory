@@ -42,21 +42,22 @@ public class Player : MonoBehaviour {
     private float rotY = 0.0f;
     
     //Inventory
-    public byte SelectedBlockIndex;
+    private bool inventoryHasBeenOpened;
+    public byte SelectedBlockIndex
+    {
+        set => selectedBlockIndex = value;
+        get => selectedBlockIndex;
+    }
+
+    private byte selectedBlockIndex;
 
     private Item[,] inventory = new Item[4,9];
-
-    [SerializeField] private Toolbar toolbarReference;
 
     private void Start() {
 
         cam = GameObject.Find("Main Camera").transform;
         world = GameObject.Find("World").GetComponent<World>();
-<<<<<<< Updated upstream
 
-=======
-        
->>>>>>> Stashed changes
         byte itemIndex = 1;
 
         for (int x = 1; x < inventory.GetLength(0); x++)
@@ -70,21 +71,16 @@ public class Player : MonoBehaviour {
                 }
                 else
                 {
+                    
                     inventory[x, z] = new Item(0, 0);
                 }
                 
             }
         }
-
-        Item[] toolbarItems = new Item[inventory.GetLength(1)];
         for (int z = 0; z < inventory.GetLength(1); z++)
         {  
-            Item newItem = new Item(0, 0);
-            inventory[0, z] = newItem;
-            toolbarItems[z] = newItem;
+                inventory[0, z] = new Item(0, 0);
         }
-
-        toolbarReference.SetToolbar(toolbarItems);
 
         Cursor.lockState = CursorLockMode.Locked;
     }
