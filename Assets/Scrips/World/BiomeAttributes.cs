@@ -35,7 +35,12 @@ public class BiomeAttributes : ScriptableObject {
 
     public float treeRaduius = 5;
     
+    public float lodeRedistribution;
+    public int lodeOctaves;
+    public float lodePersistance;
+    public float lodeLacunarity;
     public Lode[] lodes;
+
 
 }
 
@@ -44,11 +49,13 @@ public class Lode {
 
     public string nodeName;
     public byte blockID;
+    public byte[] changeBlockID;
     public int minHeight;
     public int maxHeight;
     public float scale;
     public float threshold;
     public float noiseOffset;
+
 
 
 }

@@ -7,6 +7,13 @@ public static class VoxelData {
     public static readonly int ChunkWidth = 16;
     public static readonly int ChunkHeight = 128;
     public static readonly int WorldSizeInChunks = 100;
+    
+    // Lighting Values
+    public static float minLightLevel = 0.1f;
+    public static float maxLightLevel = 0.9f;
+    public static float lightFalloff = 0.08f;
+
+
 
     public static int WorldSizeInVoxels {
 
@@ -14,7 +21,7 @@ public static class VoxelData {
 
     }
 
-    public static readonly int ViewDistanceInChunks = 8;
+    public static readonly int ViewDistanceInChunks = 5;
 
     public static readonly int TextureAtlasSizeInBlocks = 16;
     public static float NormalizedBlockTextureSize => 1f / (float)TextureAtlasSizeInBlocks;

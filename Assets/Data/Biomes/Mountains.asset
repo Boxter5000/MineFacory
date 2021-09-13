@@ -30,11 +30,16 @@ MonoBehaviour:
   maxTreeHeight: 7
   minTreeHeight: 4
   treeRaduius: 2.5
+  lodeRedistribution: 0
+  lodeOctaves: 0
+  lodePersistance: 0
+  lodeLacunarity: 0
   lodes:
-  - nodeName: dirt
-    blockID: 2
+  - nodeName: Cave
+    blockID: 0
+    changeBlockID: 01
     minHeight: 1
-    maxHeight: 255
-    scale: 0.5
-    threshold: 0.1
-    noiseOffset: 3
+    maxHeight: 50
+    scale: 0.1
+    threshold: 0.5
+    noiseOffset: 0

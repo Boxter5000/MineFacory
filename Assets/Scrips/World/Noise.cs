@@ -39,26 +39,40 @@ public static class Noise  {
 
     }
 
-    public static bool Get3DPerlin (Vector3 position, float offset, float scale, float threshold) {
+    public static bool Get3DPerlin (Vector3 position, float offset, float scale, int octaves, float persistance, float lacunarity,float redistribution, float threshold) {
 
         // https://www.youtube.com/watch?v=Aga0TBJkchM Carpilot on YouTube
 
-        float x = (position.x + offset + 0.1f) * scale;
-        float y = (position.y + offset + 0.1f) * scale;
-        float z = (position.z + offset + 0.1f) * scale;
+        float amplitude = 1;
+        float frequency = 1;
+        float noiseHeight = 0;
+        
+        float elevation;
 
-        float AB = Mathf.PerlinNoise(x, y);
-        float BC = Mathf.PerlinNoise(y, z);
-        float AC = Mathf.PerlinNoise(x, z);
-        float BA = Mathf.PerlinNoise(y, x);
-        float CB = Mathf.PerlinNoise(z, y);
-        float CA = Mathf.PerlinNoise(z, x);
+        for (int i = 0; i < octaves; i++)
+        {
+            float x = (position.x + offset + 0.1f) * scale;
+            float y = (position.y + offset + 0.1f) * scale;
+            float z = (position.z + offset + 0.1f) * scale;
 
-        if ((AB + BC + AC + BA + CB + CA) / 6f > threshold)
+            float AB = Mathf.PerlinNoise(x, y);
+            float BC = Mathf.PerlinNoise(y, z);
+            float AC = Mathf.PerlinNoise(x, z);
+            float BA = Mathf.PerlinNoise(y, x);
+            float CB = Mathf.PerlinNoise(z, y);
+            float CA = Mathf.PerlinNoise(z, x);
+            
+            noiseHeight += (AB + BC + AC + BA + CB + CA) / 6f * amplitude;
+
+            amplitude *= persistance;
+            frequency *= lacunarity;
+        }
+
+        elevation = noiseHeight;
+        
+        if (Mathf.Pow(elevation, redistribution)  > threshold)
             return true;
         else
             return false;
-
     }
-
 }

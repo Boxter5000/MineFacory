@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Scrips.World
@@ -14,6 +16,12 @@ namespace Scrips.World
         public Material material;
         public Material transparentMaterial;
 
+        [Header("Shader Settings")] 
+        [Range(.75f, 0f)]
+        public float globalLightLevel;
+        public Color day;
+        public Color night;
+
         [Header("Performance")]
         public bool enableThreading = true;
         
@@ -24,7 +32,7 @@ namespace Scrips.World
         
         
         private readonly Chunk[,] _chunks = new Chunk[VoxelData.WorldSizeInChunks, VoxelData.WorldSizeInChunks];
-        private readonly List<ChunkCoord> _activeChunks = new List<ChunkCoord>();
+        public List<ChunkCoord> _activeChunks = new List<ChunkCoord>();
         private ChunkCoord _playerChunkCoord;
         private ChunkCoord _playerLastChunkCoord;
 
@@ -33,7 +41,7 @@ namespace Scrips.World
 
         [HideInInspector]public readonly Queue<Chunk> ChunksToDraw = new Queue<Chunk>();
         private readonly Queue<Queue<VoxelMod>>  _modifications = new Queue<Queue<VoxelMod>>();
-        [HideInInspector]public readonly List<Chunk> ChunksToUpdate = new List<Chunk>();
+        [HideInInspector]public List<Chunk> chunksToUpdate = new List<Chunk>();
         private bool _applyingModifications;
 
         public bool isInventoryOpen;
@@ -46,6 +54,10 @@ namespace Scrips.World
         private void Start() {
 
             Random.InitState(seed);
+            
+            
+            Shader.SetGlobalFloat("minGlobalLightLevel", VoxelData.minLightLevel);
+            Shader.SetGlobalFloat("maxGlobalLightLevel", VoxelData.maxLightLevel);
 
             if (enableThreading)
             {
@@ -62,6 +74,9 @@ namespace Scrips.World
         private void Update() {
 
             _playerChunkCoord = GetChunkCoordFromVector3(player.position);
+            
+            Shader.SetGlobalFloat("GlobalLightLevel", globalLightLevel);
+            Camera.main.backgroundColor = Color.Lerp(day, night, globalLightLevel);
 
             // Only update the chunks if the player has moved from the chunk they were previously on.
             if (!_playerChunkCoord.Equals(_playerLastChunkCoord))
@@ -82,7 +97,7 @@ namespace Scrips.World
                 if (!_applyingModifications)
                     ApplyModifications();
 
-                if (ChunksToUpdate.Count > 0)
+                if (chunksToUpdate.Count > 0)
                     UpdateChunks();
             }
 
@@ -120,32 +135,36 @@ namespace Scrips.World
             bool updated = false;
             int index = 0;
 
-            lock (ChunkUpdateThreadLock)
-            {
-                while (!updated && index < ChunksToUpdate.Count - 1) {
+            lock (ChunkUpdateThreadLock) {
 
-                    if (ChunksToUpdate[index].isEditable) {
-                        ChunksToUpdate[index].UpdateChunk();
-                        _activeChunks.Add(ChunksToUpdate[index].coord);
-                        ChunksToUpdate.RemoveAt(index);
+                while (!updated && index < chunksToUpdate.Count - 1) {
+
+                    if (chunksToUpdate[index].isEditable) {
+                        chunksToUpdate[index].UpdateChunk();
+                        _activeChunks.Add(chunksToUpdate[index].coord);
+                        chunksToUpdate.RemoveAt(index);
                         updated = true;
                     } else
                         index++;
 
                 }
+
             }
+
         }
 
-        private void ThreadedUpdate()
-        {
-            while (true)
-            {
+        void ThreadedUpdate() {
+
+            while (true) {
+
                 if (!_applyingModifications)
                     ApplyModifications();
 
-                if (ChunksToUpdate.Count > 0)
+                if (chunksToUpdate.Count > 0)
                     UpdateChunks();
+
             }
+
         }
 
         private void OnDisable()
@@ -199,48 +218,48 @@ namespace Scrips.World
 
         }
 
-        void CheckViewDistance () {
+void CheckViewDistance () {
 
-            ChunkCoord coord = GetChunkCoordFromVector3(player.position);
-            _playerLastChunkCoord = _playerChunkCoord;
+        ChunkCoord coord = GetChunkCoordFromVector3(player.position);
+        _playerLastChunkCoord = _playerChunkCoord;
 
-            List<ChunkCoord> previouslyActiveChunks = new List<ChunkCoord>(_activeChunks);
-        
-            _activeChunks.Clear();
+        List<ChunkCoord> previouslyActiveChunks = new List<ChunkCoord>(_activeChunks);
 
-            // Loop through all chunks currently within view distance of the player.
-            for (int x = coord.x - VoxelData.ViewDistanceInChunks; x < coord.x + VoxelData.ViewDistanceInChunks; x++) {
-                for (int z = coord.z - VoxelData.ViewDistanceInChunks; z < coord.z + VoxelData.ViewDistanceInChunks; z++) {
+        _activeChunks.Clear();
 
-                    // If the current chunk is in the world...
-                    if (IsChunkInWorld (new ChunkCoord (x, z))) {
+        // Loop through all chunks currently within view distance of the player.
+        for (int x = coord.x - VoxelData.ViewDistanceInChunks; x < coord.x + VoxelData.ViewDistanceInChunks; x++) {
+            for (int z = coord.z - VoxelData.ViewDistanceInChunks; z < coord.z + VoxelData.ViewDistanceInChunks; z++) {
 
-                        // Check if it active, if not, activate it.
-                        if (_chunks[x, z] == null) {
-                            _chunks[x, z] = new Chunk(new ChunkCoord(x, z), this);
-                            _chunksToCreate.Add(new ChunkCoord(x, z));
-                        }  else if (!_chunks[x, z].isActive) {
-                            _chunks[x, z].isActive = true;
-                        }
-                        _activeChunks.Add(new ChunkCoord(x, z));
+                // If the current chunk is in the world...
+                if (IsChunkInWorld (new ChunkCoord (x, z))) {
+
+                    // Check if it active, if not, activate it.
+                    if (_chunks[x, z] == null) {
+                        _chunks[x, z] = new Chunk(new ChunkCoord(x, z), this);
+                        _chunksToCreate.Add(new ChunkCoord(x, z));
+                    }  else if (!_chunks[x, z].isActive) {
+                        _chunks[x, z].isActive = true;
                     }
-
-                    // Check through previously active chunks to see if this chunk is there. If it is, remove it from the list.
-                    for (int i = 0; i < previouslyActiveChunks.Count; i++) {
-
-                        if (previouslyActiveChunks[i].Equals(new ChunkCoord(x, z)))
-                            previouslyActiveChunks.RemoveAt(i);
-                       
-                    }
-
+                    _activeChunks.Add(new ChunkCoord(x, z));
                 }
+
+                // Check through previously active chunks to see if this chunk is there. If it is, remove it from the list.
+                for (int i = 0; i < previouslyActiveChunks.Count; i++) {
+
+                    if (previouslyActiveChunks[i].Equals(new ChunkCoord(x, z)))
+                        previouslyActiveChunks.RemoveAt(i);
+                       
+                }
+
             }
-
-            // Any chunks left in the previousActiveChunks list are no longer in the player's view distance, so loop through and disable them.
-            foreach (ChunkCoord c in previouslyActiveChunks)
-                _chunks[c.x, c.z].isActive = false;
-
         }
+
+        // Any chunks left in the previousActiveChunks list are no longer in the player's view distance, so loop through and disable them.
+        foreach (ChunkCoord c in previouslyActiveChunks)
+            _chunks[c.x, c.z].isActive = false;
+
+    }
 
         public bool CheckForVoxel (Vector3 pos) {
 
@@ -250,24 +269,24 @@ namespace Scrips.World
                 return false;
 
             if (_chunks[thisChunk.x, thisChunk.z] != null && _chunks[thisChunk.x, thisChunk.z].isEditable)
-                return blocktypes[_chunks[thisChunk.x, thisChunk.z].GetVoxelFromGlobalVector3(pos)].isSolid;
+                return blocktypes[_chunks[thisChunk.x, thisChunk.z].GetVoxelFromGlobalVector3(pos).id].isSolid;
 
             return blocktypes[GetVoxel(pos)].isSolid;
 
         }
 
     
-        public bool CheckIfVoxelTransparent (Vector3 pos) {
+        public VoxelState GetVoxelState (Vector3 pos) {
 
             ChunkCoord thisChunk = new ChunkCoord(pos);
 
             if (!IsChunkInWorld(thisChunk) || pos.y < 0 || pos.y > VoxelData.ChunkHeight)
-                return false;
+                return null;
 
             if (_chunks[thisChunk.x, thisChunk.z] != null && _chunks[thisChunk.x, thisChunk.z].isEditable)
-                return blocktypes[_chunks[thisChunk.x, thisChunk.z].GetVoxelFromGlobalVector3(pos)].isTransparent;
+                return _chunks[thisChunk.x, thisChunk.z].GetVoxelFromGlobalVector3(pos);
 
-            return blocktypes[GetVoxel(pos)].isTransparent;
+            return new VoxelState(GetVoxel(pos));
 
         }
 
@@ -347,23 +366,25 @@ namespace Scrips.World
             else if (yPos > terrainHeight)
                 voxelValue = 0;
             else
+            {
                 voxelValue = 1;
+            }
         
             /* Cave Pass */
 
-            if (Noise.Get3DPerlin(pos, 1234, .1f, .5f))
+            /*if (Noise.Get3DPerlin(pos, 1234, .1f, .5f))
             {
                 voxelValue = 0;
-            }
+            }*/
 
             /* SECOND PASS */
 
-            if (voxelValue == 2) {
-
-                foreach (Lode lode in biome.lodes) {
+            foreach (Lode lode in biome.lodes) { 
+                
+                if (lode.changeBlockID.Contains(voxelValue)) {
 
                     if (yPos > lode.minHeight && yPos < lode.maxHeight)
-                        if (Noise.Get3DPerlin(pos, lode.noiseOffset, lode.scale, lode.threshold))
+                        if (Noise.Get3DPerlin(pos, lode.noiseOffset, lode.scale, biome.lodeOctaves, biome.lodePersistance, biome.lodeLacunarity, biome.lodeRedistribution, lode.threshold))
                             voxelValue = lode.blockID;
 
                 }
@@ -429,7 +450,8 @@ namespace Scrips.World
 
         public string blockName;
         public bool isSolid;
-        public bool isTransparent;
+        public bool renderNeighborFaces;
+        public float transparency;
         public Sprite icon;
 
 

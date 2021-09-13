@@ -24,7 +24,6 @@ public class Toolbar : MonoBehaviour
     private void Awake()
     {
         world = GameObject.Find("World").GetComponent<World>();
-        player.SelectedBlockIndex = toolbarItems[slotIndex].ItemID;
     }
 
     public void SetToolbar(Item[] newToolbarItems)
