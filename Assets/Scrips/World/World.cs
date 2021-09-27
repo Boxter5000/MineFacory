@@ -59,27 +59,32 @@ namespace Scrips.World
             Shader.SetGlobalFloat("minGlobalLightLevel", VoxelData.minLightLevel);
             Shader.SetGlobalFloat("maxGlobalLightLevel", VoxelData.maxLightLevel);
 
+        
+            spawnPosition = new Vector3((VoxelData.WorldSizeInChunks * VoxelData.ChunkWidth) / 2f, VoxelData.ChunkHeight -20, (VoxelData.WorldSizeInChunks * VoxelData.ChunkWidth) / 2f);
+            GenerateWorld();
+            _playerLastChunkCoord = GetChunkCoordFromVector3(player.position);
+            Debug.Log(_playerLastChunkCoord);
+            OpenCloseInventoryUI();
             if (enableThreading)
             {
                 _chunkUpdateThread = new Thread(ThreadedUpdate);
                 _chunkUpdateThread.Start();
             }
-        
-            spawnPosition = new Vector3((VoxelData.WorldSizeInChunks * VoxelData.ChunkWidth) / 2f, VoxelData.ChunkHeight -20, (VoxelData.WorldSizeInChunks * VoxelData.ChunkWidth) / 2f);
-            GenerateWorld();
-            _playerLastChunkCoord = GetChunkCoordFromVector3(player.position);
-            OpenCloseInventoryUI();
         }
 
-        private void Update() {
+        private void Update()
+        {
 
-            _playerChunkCoord = GetChunkCoordFromVector3(player.position);
+            ChunkCoord ok = GetChunkCoordFromVector3(player.position);
+            if(ok != null)
+                _playerChunkCoord = ok;
             
             Shader.SetGlobalFloat("GlobalLightLevel", globalLightLevel);
-            Camera.main.backgroundColor = Color.Lerp(day, night, globalLightLevel);
+            Camera.main.backgroundColor = Color.Lerp(night, day, globalLightLevel);
 
             // Only update the chunks if the player has moved from the chunk they were previously on.
-            if (!_playerChunkCoord.Equals(_playerLastChunkCoord))
+            
+            if (!_playerLastChunkCoord.Equals(_playerChunkCoord))
                 CheckViewDistance();
 
             if (_chunksToCreate.Count > 0)
@@ -141,7 +146,8 @@ namespace Scrips.World
 
                     if (chunksToUpdate[index].isEditable) {
                         chunksToUpdate[index].UpdateChunk();
-                        _activeChunks.Add(chunksToUpdate[index].coord);
+                        if(!_activeChunks.Contains(chunksToUpdate[index].coord)) 
+                            _activeChunks.Add(chunksToUpdate[index].coord);
                         chunksToUpdate.RemoveAt(index);
                         updated = true;
                     } else
@@ -236,19 +242,21 @@ void CheckViewDistance () {
 
                     // Check if it active, if not, activate it.
                     if (_chunks[x, z] == null) {
-                        _chunks[x, z] = new Chunk(new ChunkCoord(x, z), this);
-                        _chunksToCreate.Add(new ChunkCoord(x, z));
-                    }  else if (!_chunks[x, z].isActive) {
-                        _chunks[x, z].isActive = true;
+                        _chunks[x, z] = new Chunk(new ChunkCoord(x,z), this);
+                        _chunksToCreate.Add(_chunks[x, z].coord);
                     }
-                    _activeChunks.Add(new ChunkCoord(x, z));
+                    _chunks[x, z].isActive = true;
+                    
+                    _activeChunks.Add(_chunks[x, z].coord);
                 }
 
                 // Check through previously active chunks to see if this chunk is there. If it is, remove it from the list.
                 for (int i = 0; i < previouslyActiveChunks.Count; i++) {
 
-                    if (previouslyActiveChunks[i].Equals(new ChunkCoord(x, z)))
+                    if (previouslyActiveChunks[i].Equals(_chunks[x, z].coord))
+                    {
                         previouslyActiveChunks.RemoveAt(i);
+                    }
                        
                 }
 
