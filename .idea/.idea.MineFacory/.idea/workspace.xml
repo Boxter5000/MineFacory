@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="952a0030-68ad-4a08-914d-9e42b50914b1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MineFacory/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MineFacory/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Material/VoxelsTransparent.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Material/VoxelsTransparent.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scrips/Chunk/Chunk.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scrips/Chunk/Chunk.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
