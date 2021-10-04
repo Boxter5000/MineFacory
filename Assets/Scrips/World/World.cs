@@ -30,10 +30,9 @@ namespace Scrips.World
         public Vector3 spawnPosition;
         
         
-        
         private readonly Chunk[,] _chunks = new Chunk[VoxelData.WorldSizeInChunks, VoxelData.WorldSizeInChunks];
         public List<ChunkCoord> _activeChunks = new List<ChunkCoord>();
-        private ChunkCoord _playerChunkCoord;
+        public ChunkCoord _playerChunkCoord;
         private ChunkCoord _playerLastChunkCoord;
 
         private readonly List<ChunkCoord> _chunksToCreate = new List<ChunkCoord>();
