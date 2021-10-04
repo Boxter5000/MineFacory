@@ -48,7 +48,7 @@ namespace Scrips.World
         public GameObject debugScreen;
         public Inventory inventoryScreen;
 
-        [HideInInspector]private Thread _chunkUpdateThread;
+        [HideInInspector]private Thread ChunkUpdateThread;
         public readonly object ChunkUpdateThreadLock = new object();
 
         private void Start()
@@ -72,10 +72,9 @@ namespace Scrips.World
             _playerLastChunkCoord = GetChunkCoordFromVector3(player.position);
             Debug.Log(_playerLastChunkCoord);
             OpenCloseInventoryUI();
-            if (settings.enableTredding)
-            {
-                _chunkUpdateThread = new Thread(ThreadedUpdate);
-                _chunkUpdateThread.Start();
+            if (settings.enableThreading) {
+                ChunkUpdateThread = new Thread(new ThreadStart(ThreadedUpdate));
+                ChunkUpdateThread.Start();
             }
         }
 
@@ -108,13 +107,14 @@ namespace Scrips.World
                     ChunksToDraw.Dequeue().CreateMesh();
             }
 
-            if (!settings.enableTredding)
-            {
+            if (!settings.enableThreading) {
+
                 if (!_applyingModifications)
                     ApplyModifications();
 
                 if (chunksToUpdate.Count > 0)
                     UpdateChunks();
+
             }
 
             if (Input.GetKeyDown(KeyCode.F3))
@@ -157,7 +157,7 @@ namespace Scrips.World
 
                     if (chunksToUpdate[index].isEditable) {
                         chunksToUpdate[index].UpdateChunk();
-                        if(!_activeChunks.Contains(chunksToUpdate[index].coord)) 
+                        if (!_activeChunks.Contains(chunksToUpdate[index].coord))
                             _activeChunks.Add(chunksToUpdate[index].coord);
                         chunksToUpdate.RemoveAt(index);
                         updated = true;
@@ -184,12 +184,12 @@ namespace Scrips.World
 
         }
 
-        private void OnDisable()
-        {
-            if (settings.enableTredding)
-            {
-                _chunkUpdateThread.Abort();
+        private void OnDisable() {
+
+            if (settings.enableThreading) {
+                ChunkUpdateThread.Abort();
             }
+
         }
 
         void ApplyModifications () {
@@ -474,7 +474,7 @@ void CheckViewDistance () {
         
         [Header("Performance")]
         public int renderDistance;
-        public bool enableTredding;
+        public bool enableThreading;
 
         [Header("Player")]
         [Range(0.1f, 10f)]
