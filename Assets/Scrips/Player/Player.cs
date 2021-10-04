@@ -38,9 +38,7 @@ public class Player : MonoBehaviour {
     private const float MaxTurnY = 89.9f;
     private const float MinTurnY = -89.9f; 
     [SerializeField] private float rotationSpeed = 10f;
-    
-    private float rotY = 0.0f;
-    
+
     //Inventory
     public byte SelectedBlockIndex;
 
@@ -146,7 +144,11 @@ public class Player : MonoBehaviour {
 
     private void GetPlayerInputs ()
     {
-
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+        
         bool isInventoryOpen = world.isInventoryOpen;
         if (Input.GetButtonDown("Inventory") || (isInventoryOpen && Input.GetKeyDown(KeyCode.Escape)))
         {
