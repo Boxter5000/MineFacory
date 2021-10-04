@@ -65,7 +65,8 @@ namespace Scrips.World
             
             Shader.SetGlobalFloat("minGlobalLightLevel", VoxelData.minLightLevel);
             Shader.SetGlobalFloat("maxGlobalLightLevel", VoxelData.maxLightLevel);
-            
+
+            SetGlobalLightValue();
             spawnPosition = new Vector3((VoxelData.WorldSizeInChunks * VoxelData.ChunkWidth) / 2f, VoxelData.ChunkHeight -20, (VoxelData.WorldSizeInChunks * VoxelData.ChunkWidth) / 2f);
             GenerateWorld();
             _playerLastChunkCoord = GetChunkCoordFromVector3(player.position);
@@ -78,6 +79,12 @@ namespace Scrips.World
             }
         }
 
+        public void SetGlobalLightValue()
+        {
+            Shader.SetGlobalFloat("GlobalLightLevel", globalLightLevel);
+            Camera.main.backgroundColor = Color.Lerp(night, day, globalLightLevel);
+        }
+
         private void Update()
         {
 
@@ -85,8 +92,6 @@ namespace Scrips.World
             if(ok != null)
                 _playerChunkCoord = ok;
             
-            Shader.SetGlobalFloat("GlobalLightLevel", globalLightLevel);
-            Camera.main.backgroundColor = Color.Lerp(night, day, globalLightLevel);
 
             // Only update the chunks if the player has moved from the chunk they were previously on.
             
@@ -241,25 +246,27 @@ void CheckViewDistance () {
 
         // Loop through all chunks currently within view distance of the player.
         for (int x = coord.x - settings.renderDistance; x < coord.x + settings.renderDistance; x++) {
-            for (int z = coord.z - settings.renderDistance; z < coord.z + settings.renderDistance; z++) {
+            for (int z = coord.z - settings.renderDistance; z < coord.z + settings.renderDistance; z++)
+            {
 
+                ChunkCoord thisChunkCoord = new ChunkCoord(x, z); 
                 // If the current chunk is in the world...
                 if (IsChunkInWorld (new ChunkCoord (x, z))) {
 
                     // Check if it active, if not, activate it.
                     if (_chunks[x, z] == null) {
-                        _chunks[x, z] = new Chunk(new ChunkCoord(x,z), this);
-                        _chunksToCreate.Add(_chunks[x, z].coord);
+                        _chunks[x, z] = new Chunk(thisChunkCoord, this);
+                        _chunksToCreate.Add(thisChunkCoord);
                     }
                     _chunks[x, z].isActive = true;
                     
-                    _activeChunks.Add(_chunks[x, z].coord);
+                    _activeChunks.Add(thisChunkCoord);
                 }
 
                 // Check through previously active chunks to see if this chunk is there. If it is, remove it from the list.
                 for (int i = 0; i < previouslyActiveChunks.Count; i++) {
 
-                    if (previouslyActiveChunks[i].Equals(_chunks[x, z].coord))
+                    if (previouslyActiveChunks[i].Equals(thisChunkCoord))
                     {
                         previouslyActiveChunks.RemoveAt(i);
                     }
