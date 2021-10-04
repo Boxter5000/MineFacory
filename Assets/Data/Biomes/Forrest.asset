@@ -23,9 +23,9 @@ MonoBehaviour:
   surfaceBlock: 2
   subSurfaceBlock: 3
   treeZoneScale: 1.5
-  treeZoneThreshold: 0.5
+  treeZoneThreshold: 0.612
   treePlacementScale: 15
-  treePlacementThreshold: 0.6
+  treePlacementThreshold: 0.793
   maxTreeHeight: 7
   minTreeHeight: 4
   treeRaduius: 2.5

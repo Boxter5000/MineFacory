@@ -400,7 +400,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -889,7 +889,6 @@ MonoBehaviour:
     renderDistance: 5
     enableThreading: 1
     cameraSesitivity: 2
-    seed: 1234
   biomes:
   - {fileID: 11400000, guid: ff226bb7d6791ff4b9e57b3559f87160, type: 2}
   - {fileID: 11400000, guid: e764bc986be6a5745865f60be94fb682, type: 2}

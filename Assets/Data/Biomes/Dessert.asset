@@ -20,7 +20,6 @@ MonoBehaviour:
   persistance: 0.2
   lacunarity: 0.3
   offset: 1234
-  biomeScale: 0.1
   surfaceBlock: 7
   subSurfaceBlock: 7
   treeZoneScale: 1.3
@@ -33,6 +32,7 @@ MonoBehaviour:
   lodes:
   - nodeName: dirt
     blockID: 2
+    changeBlockID: 01
     minHeight: 1
     maxHeight: 255
     scale: 0.5
