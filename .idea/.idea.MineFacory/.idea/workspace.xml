@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="952a0030-68ad-4a08-914d-9e42b50914b1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MineFacory/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MineFacory/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scrips/World/World.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scrips/World/World.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Material/VoxelsTransparent.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Material/VoxelsTransparent.mat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scrips/Chunk/Chunk.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scrips/Chunk/Chunk.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,8 +54,8 @@
       <option value="$PROJECT_DIR$/Assets/Scrips/Player/Toolbar.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/Player/Player.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/Player/Inventory.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scrips/Chunk/Chunk.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/World/World.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/Chunk/Chunk.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1vzbxtS5iFd4wW2ryAzVwrfiOyt" />
@@ -113,7 +115,7 @@
       <workItem from="1630930222717" duration="9816000" />
       <workItem from="1631003222488" duration="4281000" />
       <workItem from="1632746456245" duration="9979000" />
-      <workItem from="1633351803971" duration="1055000" />
+      <workItem from="1633351803971" duration="1837000" />
     </task>
     <servers />
   </component>

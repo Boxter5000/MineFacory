@@ -727,7 +727,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.1
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -802,7 +802,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2319f3bda5c56c4091fc1864999485b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seed: 1234
+  settings:
+    releaseVersion: 
+    renderDistance: 0
+    enableTredding: 0
+    cameraSesitivity: 0
+    seed: 0
   biomes:
   - {fileID: 11400000, guid: ff226bb7d6791ff4b9e57b3559f87160, type: 2}
   - {fileID: 11400000, guid: e764bc986be6a5745865f60be94fb682, type: 2}
@@ -956,7 +961,6 @@ MonoBehaviour:
   globalLightLevel: 0.75
   day: {r: 0.13665895, g: 0.64184016, b: 0.7830189, a: 1}
   night: {r: 0.041963324, g: 0.07367772, b: 0.21698111, a: 1}
-  enableThreading: 1
   player: {fileID: 558983539}
   spawnPosition: {x: 0, y: 0, z: 0}
   isInventoryOpen: 0
