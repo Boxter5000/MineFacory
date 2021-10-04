@@ -52,6 +52,8 @@ namespace Scrips.World
 
         private void Start()
         {
+            Debug.Log("Generating new World Using Seed:" + VoxelData.seed);
+            
             //string jsonExport = JsonUtility.ToJson(settings);
             //Debug.Log(jsonExport);
             //File.WriteAllText(Application.dataPath + "/settings.cfg", jsonExport);
@@ -60,7 +62,7 @@ namespace Scrips.World
             settings = JsonUtility.FromJson<Settings>(jsonImport);
             
             
-            Random.InitState(settings.seed);
+            Random.InitState(VoxelData.seed);
             
             Shader.SetGlobalFloat("minGlobalLightLevel", VoxelData.minLightLevel);
             Shader.SetGlobalFloat("maxGlobalLightLevel", VoxelData.maxLightLevel);
@@ -468,18 +470,15 @@ void CheckViewDistance () {
     public class Settings
     {
         [Header("Game Data")]
-        public string releaseVersion;
+        public string releaseVersion = "0.0.01";
         
         [Header("Performance")]
-        public int renderDistance;
-        public bool enableThreading;
+        public int renderDistance = 5;
+        public bool enableThreading = true;
 
         [Header("Player")]
         [Range(0.1f, 10f)]
-        public float cameraSesitivity;
-
-        [Header("World Gen")] 
-        public int seed;
+        public float cameraSesitivity = 2.0f;
     }
 
     [System.Serializable]

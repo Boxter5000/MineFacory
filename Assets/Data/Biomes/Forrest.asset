@@ -20,20 +20,15 @@ MonoBehaviour:
   persistance: 0.3
   lacunarity: 0.5
   offset: 2345
-  biomeScale: 0.1
   surfaceBlock: 2
   subSurfaceBlock: 3
-  treeZoneScale: 1.3
-  treeZoneThreshold: 0.6
+  treeZoneScale: 1.5
+  treeZoneThreshold: 0.5
   treePlacementScale: 15
-  treePlacementThreshold: 0.8
+  treePlacementThreshold: 0.6
   maxTreeHeight: 7
   minTreeHeight: 4
   treeRaduius: 2.5
-  lodeRedistribution: 3
-  lodeOctaves: 10
-  lodePersistance: 0.38
-  lodeLacunarity: 1.6
   lodes:
   - nodeName: Cave
     blockID: 0
