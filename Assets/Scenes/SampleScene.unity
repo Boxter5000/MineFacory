@@ -953,7 +953,7 @@ MonoBehaviour:
     rightFaceTexture: 69
   material: {fileID: 2100000, guid: 21143a92cd42ffa4fbfbeffb0c062ba7, type: 2}
   transparentMaterial: {fileID: 2100000, guid: 41096ac7c5db1c242b4cf49337838807, type: 2}
-  globalLightLevel: 0
+  globalLightLevel: 0.75
   day: {r: 0.13665895, g: 0.64184016, b: 0.7830189, a: 1}
   night: {r: 0.041963324, g: 0.07367772, b: 0.21698111, a: 1}
   enableThreading: 1

@@ -162,7 +162,7 @@ public class Player : MonoBehaviour {
         {
             horizontal = Input.GetAxis("Horizontal");
             vertical = Input.GetAxis("Vertical");
-            mouseHorizontal = Input.GetAxis("Mouse X") * rotationSpeed;
+            mouseHorizontal = Input.GetAxis("Mouse X") * world.settings.cameraSesitivity;
             mouseVertical -= Input.GetAxis("Mouse Y") * rotationSpeed;
 
             if (Input.GetButtonDown("Sprint"))

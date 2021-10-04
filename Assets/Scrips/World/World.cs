@@ -4,13 +4,16 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
+using System.IO;
 
 namespace Scrips.World
 {
-    public class World : MonoBehaviour {
+    public class World : MonoBehaviour
+    {
 
+        public Settings settings;
+        
         [Header("World Generation Values")]
-        public int seed;
         public BiomeAttributes[] biomes;
         public BlockType[] blocktypes;
         public Material material;
@@ -22,9 +25,6 @@ namespace Scrips.World
         public Color day;
         public Color night;
 
-        [Header("Performance")]
-        public bool enableThreading = true;
-        
         [Header("Player")]
         public Transform player;
         public Vector3 spawnPosition;
@@ -51,21 +51,27 @@ namespace Scrips.World
         [HideInInspector]private Thread _chunkUpdateThread;
         public readonly object ChunkUpdateThreadLock = new object();
 
-        private void Start() {
+        private void Start()
+        {
+            //string jsonExport = JsonUtility.ToJson(settings);
+            //Debug.Log(jsonExport);
+            //File.WriteAllText(Application.dataPath + "/settings.cfg", jsonExport);
 
-            Random.InitState(seed);
+            string jsonImport = File.ReadAllText(Application.dataPath + "/settings.cfg");
+            settings = JsonUtility.FromJson<Settings>(jsonImport);
             
+            
+            Random.InitState(settings.seed);
             
             Shader.SetGlobalFloat("minGlobalLightLevel", VoxelData.minLightLevel);
             Shader.SetGlobalFloat("maxGlobalLightLevel", VoxelData.maxLightLevel);
-
-        
+            
             spawnPosition = new Vector3((VoxelData.WorldSizeInChunks * VoxelData.ChunkWidth) / 2f, VoxelData.ChunkHeight -20, (VoxelData.WorldSizeInChunks * VoxelData.ChunkWidth) / 2f);
             GenerateWorld();
             _playerLastChunkCoord = GetChunkCoordFromVector3(player.position);
             Debug.Log(_playerLastChunkCoord);
             OpenCloseInventoryUI();
-            if (enableThreading)
+            if (settings.enableTredding)
             {
                 _chunkUpdateThread = new Thread(ThreadedUpdate);
                 _chunkUpdateThread.Start();
@@ -97,7 +103,7 @@ namespace Scrips.World
                     ChunksToDraw.Dequeue().CreateMesh();
             }
 
-            if (!enableThreading)
+            if (!settings.enableTredding)
             {
                 if (!_applyingModifications)
                     ApplyModifications();
@@ -112,8 +118,8 @@ namespace Scrips.World
 
         void GenerateWorld () {
 
-            for (int x = (VoxelData.WorldSizeInChunks / 2) - VoxelData.ViewDistanceInChunks; x < (VoxelData.WorldSizeInChunks / 2) + VoxelData.ViewDistanceInChunks; x++) {
-                for (int z = (VoxelData.WorldSizeInChunks / 2) - VoxelData.ViewDistanceInChunks; z < (VoxelData.WorldSizeInChunks / 2) + VoxelData.ViewDistanceInChunks; z++)
+            for (int x = (VoxelData.WorldSizeInChunks / 2) - settings.renderDistance; x < (VoxelData.WorldSizeInChunks / 2) + settings.renderDistance; x++) {
+                for (int z = (VoxelData.WorldSizeInChunks / 2) - settings.renderDistance; z < (VoxelData.WorldSizeInChunks / 2) + settings.renderDistance; z++)
                 {
 
                     ChunkCoord newChunk = new ChunkCoord(x, z);
@@ -175,7 +181,7 @@ namespace Scrips.World
 
         private void OnDisable()
         {
-            if (enableThreading)
+            if (settings.enableTredding)
             {
                 _chunkUpdateThread.Abort();
             }
@@ -234,8 +240,8 @@ void CheckViewDistance () {
         _activeChunks.Clear();
 
         // Loop through all chunks currently within view distance of the player.
-        for (int x = coord.x - VoxelData.ViewDistanceInChunks; x < coord.x + VoxelData.ViewDistanceInChunks; x++) {
-            for (int z = coord.z - VoxelData.ViewDistanceInChunks; z < coord.z + VoxelData.ViewDistanceInChunks; z++) {
+        for (int x = coord.x - settings.renderDistance; x < coord.x + settings.renderDistance; x++) {
+            for (int z = coord.z - settings.renderDistance; z < coord.z + settings.renderDistance; z++) {
 
                 // If the current chunk is in the world...
                 if (IsChunkInWorld (new ChunkCoord (x, z))) {
@@ -451,6 +457,24 @@ void CheckViewDistance () {
             inventoryScreen.gameObject.SetActive(isInventoryOpen);
         }
 
+    }
+
+    [System.Serializable]
+    public class Settings
+    {
+        [Header("Game Data")]
+        public string releaseVersion;
+        
+        [Header("Performance")]
+        public int renderDistance;
+        public bool enableTredding;
+
+        [Header("Player")]
+        [Range(0.1f, 10f)]
+        public float cameraSesitivity;
+
+        [Header("World Gen")] 
+        public int seed;
     }
 
     [System.Serializable]
