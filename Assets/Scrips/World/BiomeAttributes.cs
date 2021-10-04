@@ -15,7 +15,6 @@ public class BiomeAttributes : ScriptableObject {
     public float lacunarity;
 
     public int offset;
-    public float biomeScale;
 
     [Header("Surface blocks")] 
     public byte surfaceBlock;
@@ -34,11 +33,7 @@ public class BiomeAttributes : ScriptableObject {
     public int minTreeHeight = 4;
 
     public float treeRaduius = 5;
-    
-    public float lodeRedistribution;
-    public int lodeOctaves;
-    public float lodePersistance;
-    public float lodeLacunarity;
+
     public Lode[] lodes;
 
 

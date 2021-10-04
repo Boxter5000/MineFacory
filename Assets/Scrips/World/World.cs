@@ -405,7 +405,7 @@ void CheckViewDistance () {
                 if (lode.changeBlockID.Contains(voxelValue)) {
 
                     if (yPos > lode.minHeight && yPos < lode.maxHeight)
-                        if (Noise.Get3DPerlin(pos, lode.noiseOffset, lode.scale, biome.lodeOctaves, biome.lodePersistance, biome.lodeLacunarity, biome.lodeRedistribution, lode.threshold))
+                        if (Noise.Get3DPerlin(pos, lode.noiseOffset, lode.scale, lode.threshold))
                             voxelValue = lode.blockID;
 
                 }
