@@ -70,7 +70,6 @@ namespace Scrips.World
             spawnPosition = new Vector3((VoxelData.WorldSizeInChunks * VoxelData.ChunkWidth) / 2f, VoxelData.ChunkHeight -20, (VoxelData.WorldSizeInChunks * VoxelData.ChunkWidth) / 2f);
             GenerateWorld();
             _playerLastChunkCoord = GetChunkCoordFromVector3(player.position);
-            Debug.Log(_playerLastChunkCoord);
             OpenCloseInventoryUI();
             if (settings.enableThreading) {
                 ChunkUpdateThread = new Thread(new ThreadStart(ThreadedUpdate));
