@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -6,8 +7,7 @@ using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 using System.IO;
 
-namespace Scrips.World
-{
+
     public class World : MonoBehaviour
     {
 
@@ -48,11 +48,38 @@ namespace Scrips.World
         public Inventory inventoryScreen;
 
         [HideInInspector]private Thread ChunkUpdateThread;
-        public readonly object ChunkUpdateThreadLock = new object();
+        public object ChunkUpdateThreadLock = new object();
+        public object ChunkListThreadLock = new object();
+
+        private static World _instance;
+        public static World Instance
+        {
+            get { return _instance; }
+        }
+
+        public WorldData worldData;
+
+        public string appPath;
+
+        private void Awake()
+        {
+            if (_instance != null && _instance != this)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                _instance = this;
+            }
+
+            appPath = Application.persistentDataPath;
+        }
 
         private void Start()
         {
             Debug.Log("Generating new World Using Seed:" + VoxelData.seed);
+
+            worldData = SaveSystem.LoadWorld("Prototyp");
             
             //string jsonExport = JsonUtility.ToJson(settings);
             //Debug.Log(jsonExport);
@@ -103,8 +130,7 @@ namespace Scrips.World
 
             if (ChunksToDraw.Count > 0)
             {
-                if (ChunksToDraw.Peek().isEditable)
-                    ChunksToDraw.Dequeue().CreateMesh();
+                ChunksToDraw.Dequeue().CreateMesh();
             }
 
             if (!settings.enableThreading) {
@@ -119,6 +145,19 @@ namespace Scrips.World
 
             if (Input.GetKeyDown(KeyCode.F3))
                 debugScreen.SetActive(!debugScreen.activeSelf);
+            
+            if (Input.GetKeyDown(KeyCode.F1))
+                SaveSystem.SaveWorld(worldData);
+        }
+
+        void LoadWorld () {
+
+            for (int x = (VoxelData.WorldSizeInChunks / 2) - settings.loadDistance; x < (VoxelData.WorldSizeInChunks / 2) + settings.loadDistance; x++) {
+                for (int z = (VoxelData.WorldSizeInChunks / 2) - settings.loadDistance; z < (VoxelData.WorldSizeInChunks / 2) + settings.loadDistance; z++)
+                {
+                    worldData.LoadChunk(new Vector2Int(x, z));
+                }
+            }
         }
 
         void GenerateWorld () {
@@ -128,7 +167,7 @@ namespace Scrips.World
                 {
 
                     ChunkCoord newChunk = new ChunkCoord(x, z);
-                    _chunks[x, z] = new Chunk(newChunk, this);
+                    _chunks[x, z] = new Chunk(newChunk);
                     _chunksToCreate.Add(newChunk);
                 }
             }
@@ -146,39 +185,35 @@ namespace Scrips.World
 
         }
     
-        void UpdateChunks () {
+        void UpdateChunks ()
+        {
 
-            bool updated = false;
-            int index = 0;
-
-            lock (ChunkUpdateThreadLock) {
-
-                while (!updated && index < chunksToUpdate.Count - 1) {
-
-                    if (chunksToUpdate[index].isEditable) {
-                        chunksToUpdate[index].UpdateChunk();
-                        if (!_activeChunks.Contains(chunksToUpdate[index].coord))
-                            _activeChunks.Add(chunksToUpdate[index].coord);
-                        chunksToUpdate.RemoveAt(index);
-                        updated = true;
-                    } else
-                        index++;
-
+            lock (ChunkUpdateThreadLock)
+            {
+                chunksToUpdate[0].UpdateChunk();
+                if (!_activeChunks.Contains(chunksToUpdate[0].coord))
+                {
+                    _activeChunks.Add(chunksToUpdate[0].coord);
                 }
-
+                chunksToUpdate.RemoveAt(0);
             }
-
         }
 
-        void ThreadedUpdate() {
+        void ThreadedUpdate()
+        {
 
-            while (true) {
+            while (true)
+            {
 
                 if (!_applyingModifications)
+                {
                     ApplyModifications();
+                }
 
                 if (chunksToUpdate.Count > 0)
+                {
                     UpdateChunks();
+                }
 
             }
 
@@ -203,15 +238,8 @@ namespace Scrips.World
                 while (queue.Count > 0) {
 
                     VoxelMod v = queue.Dequeue();
-
-                    ChunkCoord c = GetChunkCoordFromVector3(v.Position);
-
-                    if (_chunks != null && _chunks[c.x, c.z] == null) {
-                        _chunks[c.x, c.z] = new Chunk(c, this);
-                        _chunksToCreate.Add(c);
-                    }
-
-                    if (_chunks != null) _chunks[c.x, c.z].modifications.Enqueue(v);
+                    
+                    worldData.SetVoxel(v.Position, v.ID);
                 }
             }
 
@@ -255,7 +283,7 @@ void CheckViewDistance () {
 
                     // Check if it active, if not, activate it.
                     if (_chunks[x, z] == null) {
-                        _chunks[x, z] = new Chunk(thisChunkCoord, this);
+                        _chunks[x, z] = new Chunk(thisChunkCoord);
                         _chunksToCreate.Add(thisChunkCoord);
                     }
                     _chunks[x, z].isActive = true;
@@ -282,33 +310,23 @@ void CheckViewDistance () {
 
     }
 
-        public bool CheckForVoxel (Vector3 pos) {
-
-            ChunkCoord thisChunk = new ChunkCoord(pos);
-
-            if (!IsChunkInWorld(thisChunk) || pos.y < 0 || pos.y > VoxelData.ChunkHeight)
+        public bool CheckForVoxel (Vector3 pos)
+        {
+            VoxelState voxel = worldData.GetVoxel(pos);
+            if (blocktypes[voxel.id].isSolid)
+            {
+                return true;
+            }
+            else
+            {
                 return false;
-
-            if (_chunks[thisChunk.x, thisChunk.z] != null && _chunks[thisChunk.x, thisChunk.z].isEditable)
-                return blocktypes[_chunks[thisChunk.x, thisChunk.z].GetVoxelFromGlobalVector3(pos).id].isSolid;
-
-            return blocktypes[GetVoxel(pos)].isSolid;
-
+            }
         }
 
     
-        public VoxelState GetVoxelState (Vector3 pos) {
-
-            ChunkCoord thisChunk = new ChunkCoord(pos);
-
-            if (!IsChunkInWorld(thisChunk) || pos.y < 0 || pos.y > VoxelData.ChunkHeight)
-                return null;
-
-            if (_chunks[thisChunk.x, thisChunk.z] != null && _chunks[thisChunk.x, thisChunk.z].isEditable)
-                return _chunks[thisChunk.x, thisChunk.z].GetVoxelFromGlobalVector3(pos);
-
-            return new VoxelState(GetVoxel(pos));
-
+        public VoxelState GetVoxelState (Vector3 pos)
+        {
+            return worldData.GetVoxel(pos);
         }
 
 
@@ -471,8 +489,9 @@ void CheckViewDistance () {
     {
         [Header("Game Data")]
         public string releaseVersion = "0.0.01";
-        
-        [Header("Performance")]
+
+        [Header("Performance")] 
+        public int loadDistance = 10;
         public int renderDistance = 5;
         public bool enableThreading = true;
 
@@ -547,4 +566,3 @@ void CheckViewDistance () {
         }
 
     }
-}

@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Scrips.Player;
-using Scrips.World;
 using UnityEngine;
 using UnityEngine.UI;
 

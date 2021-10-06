@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.IO;
-using Scrips.World;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 

@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Scrips.World;
 using UnityEngine;
 using UnityEngine.UI;
 
