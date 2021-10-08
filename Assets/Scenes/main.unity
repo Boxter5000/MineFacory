@@ -886,8 +886,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings:
     releaseVersion: 0.0.01
+    loadDistance: 10
     renderDistance: 5
-    enableThreading: 1
+    enableThreading: 0
     cameraSesitivity: 2
   biomes:
   - {fileID: 11400000, guid: ff226bb7d6791ff4b9e57b3559f87160, type: 2}
@@ -897,7 +898,7 @@ MonoBehaviour:
   - blockName: Air
     isSolid: 0
     renderNeighborFaces: 1
-    transparency: 1
+    opacity: 0
     icon: {fileID: 21300000, guid: 37508e18d9d02ea429c18ca1c09c7c30, type: 3}
     backFaceTexture: 0
     frontFaceTexture: 0
@@ -908,7 +909,7 @@ MonoBehaviour:
   - blockName: Stone
     isSolid: 1
     renderNeighborFaces: 0
-    transparency: 0
+    opacity: 15
     icon: {fileID: 5679390536090785944, guid: 67affed7093f41548b5ab34bd96ce3f4, type: 3}
     backFaceTexture: 1
     frontFaceTexture: 1
@@ -919,7 +920,7 @@ MonoBehaviour:
   - blockName: Grass
     isSolid: 1
     renderNeighborFaces: 0
-    transparency: 0
+    opacity: 15
     icon: {fileID: 5392753449730437660, guid: 67affed7093f41548b5ab34bd96ce3f4, type: 3}
     backFaceTexture: 3
     frontFaceTexture: 3
@@ -930,7 +931,7 @@ MonoBehaviour:
   - blockName: Dirt
     isSolid: 1
     renderNeighborFaces: 0
-    transparency: 0
+    opacity: 15
     icon: {fileID: -6943373833598557, guid: 67affed7093f41548b5ab34bd96ce3f4, type: 3}
     backFaceTexture: 2
     frontFaceTexture: 2
@@ -941,7 +942,7 @@ MonoBehaviour:
   - blockName: Cobblestone
     isSolid: 1
     renderNeighborFaces: 0
-    transparency: 0
+    opacity: 15
     icon: {fileID: 1159639000735656762, guid: 67affed7093f41548b5ab34bd96ce3f4, type: 3}
     backFaceTexture: 16
     frontFaceTexture: 16
@@ -952,7 +953,7 @@ MonoBehaviour:
   - blockName: Wooden Planks
     isSolid: 1
     renderNeighborFaces: 0
-    transparency: 0
+    opacity: 15
     icon: {fileID: -1501523072523359806, guid: 67affed7093f41548b5ab34bd96ce3f4, type: 3}
     backFaceTexture: 4
     frontFaceTexture: 4
@@ -963,7 +964,7 @@ MonoBehaviour:
   - blockName: Beadrock
     isSolid: 1
     renderNeighborFaces: 0
-    transparency: 0
+    opacity: 15
     icon: {fileID: 6181873364862223445, guid: 67affed7093f41548b5ab34bd96ce3f4, type: 3}
     backFaceTexture: 17
     frontFaceTexture: 17
@@ -974,7 +975,7 @@ MonoBehaviour:
   - blockName: Sand
     isSolid: 1
     renderNeighborFaces: 0
-    transparency: 0
+    opacity: 15
     icon: {fileID: -9138616440249935319, guid: 67affed7093f41548b5ab34bd96ce3f4, type: 3}
     backFaceTexture: 18
     frontFaceTexture: 18
@@ -985,7 +986,7 @@ MonoBehaviour:
   - blockName: Wood
     isSolid: 1
     renderNeighborFaces: 0
-    transparency: 0
+    opacity: 15
     icon: {fileID: 448961105294916356, guid: 67affed7093f41548b5ab34bd96ce3f4, type: 3}
     backFaceTexture: 20
     frontFaceTexture: 20
@@ -996,7 +997,7 @@ MonoBehaviour:
   - blockName: Brick
     isSolid: 1
     renderNeighborFaces: 0
-    transparency: 0
+    opacity: 15
     icon: {fileID: -4219558403781695398, guid: 67affed7093f41548b5ab34bd96ce3f4, type: 3}
     backFaceTexture: 7
     frontFaceTexture: 7
@@ -1007,7 +1008,7 @@ MonoBehaviour:
   - blockName: Glas
     isSolid: 1
     renderNeighborFaces: 1
-    transparency: 1
+    opacity: 0
     icon: {fileID: -7538633921802359561, guid: 67affed7093f41548b5ab34bd96ce3f4, type: 3}
     backFaceTexture: 49
     frontFaceTexture: 49
@@ -1018,7 +1019,7 @@ MonoBehaviour:
   - blockName: Leave
     isSolid: 1
     renderNeighborFaces: 1
-    transparency: 0.5
+    opacity: 3
     icon: {fileID: -7538633921802359561, guid: 67affed7093f41548b5ab34bd96ce3f4, type: 3}
     backFaceTexture: 52
     frontFaceTexture: 52
@@ -1029,7 +1030,7 @@ MonoBehaviour:
   - blockName: Cactus
     isSolid: 1
     renderNeighborFaces: 0
-    transparency: 0
+    opacity: 15
     icon: {fileID: -7538633921802359561, guid: 67affed7093f41548b5ab34bd96ce3f4, type: 3}
     backFaceTexture: 69
     frontFaceTexture: 69
@@ -1047,6 +1048,10 @@ MonoBehaviour:
   isInventoryOpen: 0
   debugScreen: {fileID: 405696720}
   inventoryScreen: {fileID: 758429779}
+  worldData:
+    worldName: 
+    seed: 0
+  appPath: 
 --- !u!4 &1124228223
 Transform:
   m_ObjectHideFlags: 0

@@ -3,13 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="952a0030-68ad-4a08-914d-9e42b50914b1" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MineFacory/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MineFacory/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/BlockPlacement.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/BlockPlacement.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/main.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/main.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scrips/Chunk/Chunk.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scrips/Chunk/Chunk.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scrips/Player/DebugScreen.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scrips/Player/DebugScreen.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scrips/Player/Inventory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scrips/Player/Inventory.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scrips/Player/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scrips/Player/Player.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scrips/Player/Toolbar.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scrips/Player/Toolbar.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scrips/UI/TitleMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scrips/UI/TitleMenu.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scrips/World/Structure.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scrips/World/Structure.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scrips/Chunk/VoxelData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scrips/Chunk/VoxelData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scrips/Data/ChunkData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scrips/Data/ChunkData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scrips/Data/WorldData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scrips/Data/WorldData.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scrips/World/World.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scrips/World/World.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/settings.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/settings.cfg" afterDir="false" />
     </list>
@@ -38,6 +38,7 @@
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.timeline@1.4.4/Editor/Manipulators/Sequence/TrimClip.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://D:/Unity Hub/2020.2.1f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.ugui/Runtime/UI/Core/Utility/VertexHelper.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scrips/Data/WorldData.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scrips/Lighting.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -56,7 +57,6 @@
       <option value="$PROJECT_DIR$/Assets/Scrips/Chunk/VertexTable.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/World/BiomeAttrebute.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/Toolbar.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scrips/Chunk/VoxelData.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/Player/CameraController.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/World/Noise.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/World/BiomeAttributes.cs" />
@@ -68,11 +68,15 @@
       <option value="$PROJECT_DIR$/Assets/Scrips/UI/TitleMenu.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/World/Structure.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/Player/DebugScreen.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scrips/Chunk/Chunk.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scrips/Data/ChunkData.cs" />
-      <option value="$PROJECT_DIR$/Assets/Scrips/Data/WorldData.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/Data/SaveSystem.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/Chunk/VoxelData.cs" />
+      <option value="$PROJECT_DIR$/Assets/VoxelState.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/Data/WorldData.cs" />
       <option value="$PROJECT_DIR$/Assets/Scrips/World/World.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/Lighting.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/Chunk/Chunk.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/VoxelState.cs" />
+      <option value="$PROJECT_DIR$/Assets/Scrips/Data/ChunkData.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1vzbxtS5iFd4wW2ryAzVwrfiOyt" />
@@ -135,6 +139,7 @@
       <workItem from="1633351803971" duration="1837000" />
       <workItem from="1633522023114" duration="10565000" />
       <workItem from="1633534019887" duration="346000" />
+      <workItem from="1633684554433" duration="11049000" />
     </task>
     <servers />
   </component>

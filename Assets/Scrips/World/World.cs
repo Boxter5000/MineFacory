@@ -35,12 +35,11 @@ using System.IO;
         public ChunkCoord _playerChunkCoord;
         private ChunkCoord _playerLastChunkCoord;
 
-        private readonly List<ChunkCoord> _chunksToCreate = new List<ChunkCoord>();
         private bool _isCreatingChunks;
 
         [HideInInspector]public readonly Queue<Chunk> ChunksToDraw = new Queue<Chunk>();
         private readonly Queue<Queue<VoxelMod>>  _modifications = new Queue<Queue<VoxelMod>>();
-        [HideInInspector]public List<Chunk> chunksToUpdate = new List<Chunk>();
+        [HideInInspector]private List<Chunk> chunksToUpdate = new List<Chunk>();
         private bool _applyingModifications;
 
         public bool isInventoryOpen;
@@ -93,12 +92,16 @@ using System.IO;
             
             Shader.SetGlobalFloat("minGlobalLightLevel", VoxelData.minLightLevel);
             Shader.SetGlobalFloat("maxGlobalLightLevel", VoxelData.maxLightLevel);
+            OpenCloseInventoryUI();
+            
+            LoadWorld();
 
             SetGlobalLightValue();
             spawnPosition = new Vector3((VoxelData.WorldSizeInChunks * VoxelData.ChunkWidth) / 2f, VoxelData.ChunkHeight -20, (VoxelData.WorldSizeInChunks * VoxelData.ChunkWidth) / 2f);
-            GenerateWorld();
+            player.position = spawnPosition;
+            CheckViewDistance();
             _playerLastChunkCoord = GetChunkCoordFromVector3(player.position);
-            OpenCloseInventoryUI();
+            
             if (settings.enableThreading) {
                 ChunkUpdateThread = new Thread(new ThreadStart(ThreadedUpdate));
                 ChunkUpdateThread.Start();
@@ -123,10 +126,6 @@ using System.IO;
             
             if (!_playerLastChunkCoord.Equals(_playerChunkCoord))
                 CheckViewDistance();
-
-            if (_chunksToCreate.Count > 0)
-                CreateChunk();
-
 
             if (ChunksToDraw.Count > 0)
             {
@@ -160,29 +159,26 @@ using System.IO;
             }
         }
 
-        void GenerateWorld () {
-
-            for (int x = (VoxelData.WorldSizeInChunks / 2) - settings.renderDistance; x < (VoxelData.WorldSizeInChunks / 2) + settings.renderDistance; x++) {
-                for (int z = (VoxelData.WorldSizeInChunks / 2) - settings.renderDistance; z < (VoxelData.WorldSizeInChunks / 2) + settings.renderDistance; z++)
+        public void AddChunkToUpdate(Chunk chunk)
+        {
+            AddChunkToUpdate(chunk, false);
+        }
+        public void AddChunkToUpdate(Chunk chunk, bool insert)
+        {
+            lock (ChunkUpdateThreadLock)
+            {
+                if (!chunksToUpdate.Contains(chunk))
                 {
-
-                    ChunkCoord newChunk = new ChunkCoord(x, z);
-                    _chunks[x, z] = new Chunk(newChunk);
-                    _chunksToCreate.Add(newChunk);
+                    if (insert)
+                    {
+                        chunksToUpdate.Insert(0,chunk);
+                    }
+                    else
+                    {
+                        chunksToUpdate.Add(chunk);
+                    }
                 }
             }
-            player.position = spawnPosition;
-            CheckViewDistance();
-
-        }
-
-        // ReSharper disable Unity.PerformanceAnalysis
-        private void CreateChunk () {
-
-            var c = _chunksToCreate[0];
-            _chunksToCreate.RemoveAt(0);
-            _chunks[c.x, c.z].Init();
-
         }
     
         void UpdateChunks ()
@@ -284,7 +280,6 @@ void CheckViewDistance () {
                     // Check if it active, if not, activate it.
                     if (_chunks[x, z] == null) {
                         _chunks[x, z] = new Chunk(thisChunkCoord);
-                        _chunksToCreate.Add(thisChunkCoord);
                     }
                     _chunks[x, z].isActive = true;
                     
@@ -506,7 +501,7 @@ void CheckViewDistance () {
         public string blockName;
         public bool isSolid;
         public bool renderNeighborFaces;
-        public float transparency;
+        public byte opacity;
         public Sprite icon;
 
 

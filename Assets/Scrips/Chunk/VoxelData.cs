@@ -11,7 +11,8 @@ public static class VoxelData {
     // Lighting Values
     public static float minLightLevel = 0.1f;
     public static float maxLightLevel = 0.9f;
-    public static float lightFalloff = 0.08f;
+
+    public static float unitOfLight = 0.0625f;
 
     public static int seed;
 
@@ -37,16 +38,18 @@ public static class VoxelData {
 
     };
 
-    public static readonly Vector3[] faceChecks = new Vector3[6] {
+    public static readonly Vector3Int[] faceChecks = new Vector3Int[6] {
 
-        new Vector3(0.0f, 0.0f, -1.0f),
-        new Vector3(0.0f, 0.0f, 1.0f),
-        new Vector3(0.0f, 1.0f, 0.0f),
-        new Vector3(0.0f, -1.0f, 0.0f),
-        new Vector3(-1.0f, 0.0f, 0.0f),
-        new Vector3(1.0f, 0.0f, 0.0f)
+        new Vector3Int(0, 0, -1),
+        new Vector3Int(0, 0, 1),
+        new Vector3Int(0, 1, 0),
+        new Vector3Int(0, -1, 0),
+        new Vector3Int(-1, 0, 0),
+        new Vector3Int(1, 0, 0)
 
     };
+
+    public static readonly int[] revFaceCheckIndex = new int[6] {1, 0, 3, 2, 5, 4};
 
     public static readonly int[,] voxelTris = new int[6,4] {
 
